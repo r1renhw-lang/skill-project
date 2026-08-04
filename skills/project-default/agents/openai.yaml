@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Default"
+  short_description: "Project-local defaults and reusable instructions."
+  default_prompt: "Use $project-default to follow this repository's local conventions while working on project tasks."
