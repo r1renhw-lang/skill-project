@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Engineer Resume Interview Assistant"
+  short_description: "Analyze AI engineer resumes and generate interview guidance."
+  default_prompt: "Use $mag-ai-engineer-resume-interview-assistant to analyze this AI engineer resume and generate interview questions."
