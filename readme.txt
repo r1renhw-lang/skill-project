@@ -6,6 +6,7 @@
 
 | Skill 名称 | 用途 |
 | --- | --- |
+| mag-ai-tech-trend-radar | 技术趋势研判skill：对目标 AI 技术进行结构化研判，通过联网搜索采集多源信号，从成熟度、商业价值、团队适配度、风险成本四个维度评估，给出技术雷达定位（Adopt/Trial/Assess/Hold）与可执行的行动建议，最终输出结构化研判报告。适用于技术选型决策、季度技术规划、团队技术方向对齐等场景。 |
 | mag-ai-engineer-resume-interview-assistant | AI工程师简历分析与面试助手skill：根据AI工程师简历，分析候选人的技术能力、项目经验、优势不足、岗位匹配度，并生成针对性的面试问题和招聘建议，辅助AI工程师招聘决策。 |
 | mag-ai-agent-requirement-analysis-assistant | 智能体需求分析：面向 AI 智能体建设场景，将业务方原始需求结构化，识别需求目标、功能范围、AI 实现价值、技术可行性、风险和实施建议。 |
 | mag-ai-agent-workflow-design-assistant | Agent 流程设计：根据业务需求设计 Agent 执行流程、任务拆解、Agent 角色划分、工具调用流程和异常处理机制。 |

@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 技术日报 2026-07-31</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-light: #e8f0fe;
+            --dark: #1f1f1f;
+            --gray: #5f6368;
+            --light-gray: #f8f9fa;
+            --border: #dadce0;
+            --red: #d93025;
+            --green: #188038;
+            --orange: #f9ab00;
+            --purple: #a142f4;
+            --bg: #ffffff;
+            --card-bg: #ffffff;
+            --code-bg: #f1f3f4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+            background: var(--light-gray);
+            color: var(--dark);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        /* Header */
+        .report-header {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: #fff;
+            padding: 40px 30px;
+            border-radius: 16px 16px 0 0;
+            text-align: center;
+        }
+        .report-header h1 { font-size: 28px; margin-bottom: 10px; letter-spacing: 1px; }
+        .report-header .date { font-size: 16px; opacity: 0.9; }
+        .report-header .summary {
+            margin-top: 20px;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            font-size: 15px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        /* Section */
+        .section {
+            background: var(--card-bg);
+            margin-bottom: 16px;
+            border-radius: 10px;
+            padding: 28px 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .section h2 {
+            font-size: 20px;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+            margin-bottom: 20px;
+        }
+        .section h3 {
+            font-size: 16px;
+            margin: 20px 0 10px;
+            color: var(--dark);
+        }
+
+        /* Top 10 Cards */
+        .top-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.2s;
+        }
+        .top-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .top-item .title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+        .top-item .summary-line {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 12px;
+        }
+        .top-item .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 20px;
+            font-size: 13px;
+        }
+        .top-item .meta-grid .label { font-weight: 700; color: var(--dark); }
+        .top-item .meta-grid .value { color: var(--gray); }
+        .stars { color: var(--orange); letter-spacing: 2px; }
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+        .badge-learn { background: #e6f4ea; color: var(--green); }
+        .badge-watch { background: #fef7e0; color: var(--orange); }
+        .badge-wait { background: #fce8e6; color: var(--red); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        th {
+            background: var(--primary);
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        th:first-child { border-radius: 6px 0 0 0; }
+        th:last-child { border-radius: 0 6px 0 0; }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        tr:nth-child(even) td { background: var(--light-gray); }
+        tr:hover td { background: var(--primary-light); }
+
+        /* Agent items */
+        .agent-item, .framework-item, .paper-item, .product-item, .case-item {
+            border-left: 3px solid var(--primary);
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            background: var(--light-gray);
+            border-radius: 0 8px 8px 0;
+        }
+        .agent-item h4, .framework-item h4, .paper-item h4, .product-item h4, .case-item h4 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+        .agent-item p, .framework-item p, .paper-item p, .product-item p, .case-item p {
+            font-size: 13px;
+            color: var(--gray);
+            margin: 2px 0;
+        }
+
+        /* Knowledge points */
+        .kp-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .kp-card h3 {
+            color: var(--purple);
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+        }
+        .kp-card .kp-row { margin: 6px 0; font-size: 14px; }
+        .kp-card .kp-label { font-weight: 700; color: var(--dark); }
+
+        /* Trend */
+        .trend-up { color: var(--green); font-weight: 700; }
+        .trend-down { color: var(--red); font-weight: 700; }
+        .trend-flat { color: var(--gray); font-weight: 700; }
+
+        /* Risk */
+        .risk-item {
+            background: #fef7e0;
+            border: 1px solid var(--orange);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* Action plan */
+        .action-card {
+            background: var(--primary-light);
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin-bottom: 12px;
+        }
+        .action-card h3 {
+            color: var(--primary);
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .action-card p { font-size: 14px; color: var(--gray); }
+
+        /* Final summary */
+        .final-summary {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: #fff;
+            border-radius: 10px;
+            padding: 24px 30px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 2;
+        }
+        .final-summary strong { font-size: 18px; }
+
+        /* Project impact */
+        .impact-table td:first-child { font-weight: 600; }
+        .impact-high { color: var(--red); font-weight: 700; }
+        .impact-mid { color: var(--orange); font-weight: 700; }
+        .impact-low { color: var(--green); font-weight: 700; }
+
+        /* Growth plan */
+        .growth-slot {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .growth-slot .time {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 14px;
+        }
+        .growth-slot .content { font-size: 14px; }
+
+        /* Misc */
+        .highlight-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        .source-ref { font-size: 12px; color: var(--gray); }
+        ul, ol { padding-left: 20px; margin: 8px 0; }
+        li { margin: 4px 0; font-size: 14px; }
+        .tag {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-right: 4px;
+        }
+        .tag-new { background: #e6f4ea; color: var(--green); }
+        .tag-update { background: #e8f0fe; color: var(--primary); }
+        .tag-alert { background: #fce8e6; color: var(--red); }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<!-- ==================== HEADER ==================== -->
+<div class="report-header">
+    <h1>AI 技术日报</h1>
+    <div class="date">2026-07-31 | 星期四 | Asia/Shanghai</div>
+    <div class="summary">
+        <strong>今日趋势：</strong>AI领域重点集中在三大方向——<strong>具身智能</strong>（Google DeepMind发布Gemini Robotics 2全身智能机器人模型）、<strong>Agent协议标准化</strong>（Anthropic发布MCP 2026-07-28无状态架构规范，企业级授权落地）、<strong>语音AI</strong>（OpenAI推出GPT Transcribe系列语音转写模型）。同时，国产开源模型Kimi K3（2.8万亿参数）与Qwen 3.8-Max持续引发行业关注，开源模型Token处理占比已达65%，中美模型差距缩小至2-3个月。
+    </div>
+</div>
+
+<!-- ==================== 一、今日最值得关注 Top 10 ==================== -->
+<div class="section">
+    <h2>一、今日最值得关注（Top 10）</h2>
+
+    <div class="top-item">
+        <div class="title">1. Google DeepMind 发布 Gemini Robotics 2 — 机器人全身智能控制 <span class="tag tag-new">NEW</span></div>
+        <div class="summary-line">面向机器人的最强具身推理模型，支持全身运动控制、灵巧操作和多机器人协作。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">首个可控制完整人形机器人（从脚到指尖）的VLA模型，支持连续视频流理解和实时同步推理</span></div>
+            <div><span class="label">工程价值：</span><span class="value">通过Gemini API和AI Studio开放，可在Gemini企业智能体平台预览，降低机器人AI开发门槛</span></div>
+            <div><span class="label">企业价值：</span><span class="value">制造业、物流仓储场景的机器人智能化可直接受益，多机器人协作打开复杂工作流自动化空间</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★★</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-watch">持续关注</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">2. Anthropic 发布 MCP 2026-07-28 规范 — Agent协议最大架构变革 <span class="tag tag-new">NEW</span></div>
+        <div class="summary-line">MCP协议从有状态长连接转向无状态HTTP架构，新增企业级授权、异步任务、嵌入式UI等五大核心能力。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">无状态设计使MCP服务可直接在Serverless/边缘节点部署，原生兼容OAuth 2.0和OIDC</span></div>
+            <div><span class="label">工程价值：</span><span class="value">四大SDK（TS/Python/Go/C#）已同步更新，12个月弃用政策留足迁移时间</span></div>
+            <div><span class="label">企业价值：</span><span class="value">企业级管理认证（EMA）支持Okta/Entra ID集中管控，MCP从"玩具级"迈向"企业工业级"</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★★</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★★</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-learn">立即学习</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">3. OpenAI 推出 GPT Transcribe / GPT LiveTranscribe 语音转写模型 <span class="tag tag-new">NEW</span></div>
+        <div class="summary-line">覆盖离线与实时场景的新一代语音转文本模型，引入上下文辅助机制，支持22种语言。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">从纯ASR升级为上下文理解，可结合术语表、历史转写内容提升专业场景识别准确率</span></div>
+            <div><span class="label">工程价值：</span><span class="value">离线模型成本进一步下降，实时模型维持低延迟，支持企业大规模部署</span></div>
+            <div><span class="label">企业价值：</span><span class="value">会议记录、客服通话、媒体制作场景直接受益，减少人工校对成本</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-learn">立即学习</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">4. Anthropic Claude Opus 5 正式发布 <span class="tag tag-update">UPDATE</span></div>
+        <div class="summary-line">新一代旗舰模型，砍掉80%系统提示词性能不降，引入快速模式和Effort调节机制，对齐程度历史最高。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">Frontier-Bench v0.1、ARC-AGI 3多项评测榜首，非对齐行为得分仅2.3（行业最低）</span></div>
+            <div><span class="label">工程价值：</span><span class="value">行业共识从Prompt Engineering转向Context Engineering，模型自主性大幅提升</span></div>
+            <div><span class="label">企业价值：</span><span class="value">输入5美元/百万Token，价格为Fable 5的一半，企业级编程和推理场景可立即采用</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★★</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★★</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-learn">立即学习</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">5. Kimi K3 全量开源 — 2.8万亿参数全球最大开源模型 <span class="tag tag-update">UPDATE</span></div>
+        <div class="summary-line">月之暗面发布Kimi K3，原生视觉理解+100万Token上下文，48小时独立完成芯片设计，前端编程榜Arena第一。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">KDA混合线性注意力+注意力残差技术，896个专家模块仅激活16个，扩展效率提升2.5倍</span></div>
+            <div><span class="label">工程价值：</span><span class="value">开源权重可在Ollama本地部署，API价格约为Fable 5的三分之一</span></div>
+            <div><span class="label">企业价值：</span><span class="value">开源模型Token处理占比从34%升至65%，国产开源首次站上全球顶尖水平</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★★</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★★</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-learn">立即学习</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">6. 阿里 Qwen 3.8-Max 预览版发布 <span class="tag tag-update">UPDATE</span></div>
+        <div class="summary-line">2.4万亿参数，闭源两代后重回开源路线，在网站重构实测中综合领先Kimi K3和GLM-5.2。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">项目理解、报错修复和执行稳定性突出，已适配阿里云真武M890超节点</span></div>
+            <div><span class="label">工程价值：</span><span class="value">已在阿里云百炼上线，预览版1折优惠，夜间2折，大幅降低调用成本</span></div>
+            <div><span class="label">企业价值：</span><span class="value">国产万亿级MoE训练进入稳定输出阶段，企业私有化部署选项增加</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-watch">持续关注</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">7. Claude Code 支持远程 MCP 服务器 <span class="tag tag-update">UPDATE</span></div>
+        <div class="summary-line">Claude Code可连接任意远程MCP服务器，需求三周内增长160%，Anthropic年营收达30亿美元。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">开发者可通过MCP集成Sentry、Linear等第三方服务，实现终端内调试和项目管理</span></div>
+            <div><span class="label">工程价值：</span><span class="value">已扩展至Pro计划（20美元/月），降低AI编程工具使用门槛</span></div>
+            <div><span class="label">企业价值：</span><span class="value">MCP服务器生态持续扩张，AI辅助开发从单工具走向工作流集成</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-learn">立即学习</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">8. Google Gemini 3.6 Flash 三款模型发布 <span class="tag tag-update">UPDATE</span></div>
+        <div class="summary-line">Gemini 3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber，聚焦Agent工作流中的Token效率和运行可靠性。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">Gemini Enterprise已渗透近90%的财富100强企业，API每分钟Token处理量达220亿</span></div>
+            <div><span class="label">工程价值：</span><span class="value">Flash系列定位高性价比Agent工作流，Cyber版本专注安全场景</span></div>
+            <div><span class="label">企业价值：</span><span class="value">企业级AI需求加速，谷歌云Q2营收247.68亿美元（同比+82%）</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★☆☆</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-watch">持续关注</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">9. OpenAI ChatGPT 周活逼近10亿 + 科研专属版上线 <span class="tag tag-update">UPDATE</span></div>
+        <div class="summary-line">ChatGPT周活用户接近10亿大关，上线科研专属版（超大上下文+深度研究），开源Codex Security CLI。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">科研版提供超大上下文窗口和深度研究能力，Codex Security CLI面向安全审计场景</span></div>
+            <div><span class="label">工程价值：</span><span class="value">Codex Security CLI开源，开发者可直接集成安全代码审查能力</span></div>
+            <div><span class="label">企业价值：</span><span class="value">但同时曝出自主智能体可自动执行上万次网络渗透，AI安全成全球治理焦点</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★☆☆</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-watch">持续关注</span></div>
+        </div>
+    </div>
+
+    <div class="top-item">
+        <div class="title">10. DeepSeek V4 正式版灰度发布 <span class="tag tag-update">UPDATE</span></div>
+        <div class="summary-line">含Flash和Pro两个版本，整体性能接近Opus 4.8，编码能力接近GPT-5.6 Sol，首次采用峰谷计费。</div>
+        <div class="meta-grid">
+            <div><span class="label">技术价值：</span><span class="value">Pro版本百万输出Token低谷约0.87美元、高峰约1.74美元，显著低价竞争高端市场</span></div>
+            <div><span class="label">工程价值：</span><span class="value">峰谷计费模式为行业首创，企业可将重算力任务放在低谷时段降低成本</span></div>
+            <div><span class="label">企业价值：</span><span class="value">低成本高性能模型增加企业选型空间，私有化部署方案持续完善</span></div>
+            <div><span class="label">影响程度：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">学习优先级：</span><span class="stars">★★★★☆</span></div>
+            <div><span class="label">建议：</span><span class="badge badge-watch">持续关注</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 二、大模型最新动态 ==================== -->
+<div class="section">
+    <h2>二、大模型最新动态</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>公司</th>
+                <th>更新内容</th>
+                <th>技术价值</th>
+                <th>影响现有项目</th>
+                <th>建议关注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Google DeepMind</td>
+                <td>Gemini Robotics 2 / ER 2：全身智能控制VLA模型+具身推理模型，支持多机器人协作，通过Gemini API开放</td>
+                <td>连续视频理解、同步推理、亚秒级延迟</td>
+                <td>是（机器人/具身智能项目）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>Anthropic</td>
+                <td>Claude Opus 5：旗舰模型发布，80%系统提示词精简，Effort调节机制，对齐得分2.3（行业最低）</td>
+                <td>Context Engineering范式、Frontier-Bench榜首</td>
+                <td>是（编程/推理项目）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>OpenAI</td>
+                <td>GPT Transcribe / LiveTranscribe：语音转写模型，22种语言，上下文辅助，离线+实时双模式</td>
+                <td>从ASR到上下文理解、抗噪声、低成本</td>
+                <td>是（语音/会议场景）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>Google</td>
+                <td>Gemini 3.6 Flash / 3.5 Flash-Lite / Flash Cyber：Agent工作流Token效率优化</td>
+                <td>Token效率、响应速度、运行可靠性</td>
+                <td>否（增量更新）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>月之暗面</td>
+                <td>Kimi K3全量开源：2.8万亿参数，KDA注意力+残差技术，100万Token上下文，Arena代码榜第一</td>
+                <td>896专家仅激活16个、扩展效率2.5倍</td>
+                <td>是（开源模型选型）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>阿里巴巴</td>
+                <td>Qwen 3.8-Max预览版：2.4万亿参数，闭源两代后重回开源，已上线百炼</td>
+                <td>项目理解与执行稳定性领先</td>
+                <td>是（开源模型选型）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>DeepSeek</td>
+                <td>V4正式版灰度：Flash+Pro双版本，性能接近Opus 4.8，首创峰谷计费</td>
+                <td>低成本高性能、峰谷计费模式</td>
+                <td>是（成本优化）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>腾讯</td>
+                <td>混元开源AngelSpec + WorkBuddy AI办公助手</td>
+                <td>投机解码优化、AI办公入口</td>
+                <td>否</td>
+                <td>持续关注</td>
+            </tr>
+            <tr>
+                <td>智谱AI</td>
+                <td>GLM-5.3行业微调开源套件，完善政务、金融私有化部署链路</td>
+                <td>行业微调、私有化部署</td>
+                <td>是（政企私有化）</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>Poolside</td>
+                <td>开源代码模型Laguna S2.1：100万Token上下文，可在Apple M3 Max运行</td>
+                <td>长代码库理解、本地开发</td>
+                <td>否</td>
+                <td>持续关注</td>
+            </tr>
+            <tr>
+                <td>Upstage</td>
+                <td>Solar Open 2：MoE架构250B总参/15B激活，100万Token，支持MCP工具调用</td>
+                <td>企业本地长程智能体部署</td>
+                <td>否</td>
+                <td>持续关注</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="highlight-box">
+        <strong>趋势判断：</strong>大模型竞争从"拼参数"转向"拼自治+安全+ROI验证"。海外以通用性能壁垒和分层付费为核心，国内依托本土数据合规、宽松开源协议和政务办公场景实现差异化。开源模型Token处理占比从1月的34%升至6月的65%，中美差距缩小至2-3个月。
+    </div>
+</div>
+
+<!-- ==================== 三、Agent 技术动态 ==================== -->
+<div class="section">
+    <h2>三、Agent 技术动态</h2>
+
+    <div class="agent-item">
+        <h4>MCP 2026-07-28 规范 — 最大架构变革</h4>
+        <p><strong>更新内容：</strong>从双向有状态长连接转向无状态HTTP请求响应模型，新增五大核心能力：无状态HTTP核心、标准化异步任务扩展（Tasks）、企业级授权体系（OAuth 2.0/OIDC/EMA）、嵌入式UI组件、私有网络隧道</p>
+        <p><strong>解决什么问题：</strong>旧版MCP无法在Serverless/边缘节点部署，企业无法集中管控权限，长耗时任务无法异步管理</p>
+        <p><strong>是否值得迁移：</strong>是。12个月弃用政策，建议Q4内完成迁移</p>
+        <p><strong>是否值得学习：</strong>是。这是AI智能体从"玩具级"迈向"企业工业级"的分水岭</p>
+        <p><strong>预计成熟度：</strong>★★★★★（四大SDK已同步更新，Rust SDK Beta）</p>
+        <p><strong>企业落地建议：</strong>立即评估现有MCP服务器迁移方案，优先实现EMA企业级授权以通过安全审查</p>
+    </div>
+
+    <div class="agent-item">
+        <h4>Claude Code — 远程MCP服务器支持 + 内置浏览器</h4>
+        <p><strong>更新内容：</strong>可连接任意远程MCP服务器，桌面端内置浏览器可读取和点击真实页面</p>
+        <p><strong>解决什么问题：</strong>开发者无需在Claude Code与SaaS应用间切换，Agent可自行验证UI变更</p>
+        <p><strong>是否值得迁移：</strong>是。已扩展至Pro计划（20美元/月），需求三周增长160%</p>
+        <p><strong>是否值得学习：</strong>是。MCP生态持续扩张，950+服务器可用</p>
+        <p><strong>预计成熟度：</strong>★★★★☆</p>
+        <p><strong>企业落地建议：</strong>团队可试用Pro计划评估开发效率提升，关注MCP安全加固</p>
+    </div>
+
+    <div class="agent-item">
+        <h4>Agent Skills 标准 — SKILL.md跨平台可移植</h4>
+        <p><strong>更新内容：</strong>SKILL.md开放标准，同一技能文件夹可在Claude Code、claude.ai、Cursor、ChatGPT中运行</p>
+        <p><strong>解决什么问题：</strong>消除厂商锁定，一次打包到处运行</p>
+        <p><strong>是否值得迁移：</strong>是。Anthropic已在DeepLearning.AI发布Agent Skills课程</p>
+        <p><strong>是否值得学习：</strong>是。2026年是"Skills爆发之年"</p>
+        <p><strong>预计成熟度：</strong>★★★★☆</p>
+        <p><strong>企业落地建议：</strong>将重复工作流打包为Skills，实现跨平台复用</p>
+    </div>
+
+    <div class="agent-item">
+        <h4>LangGraph 1.2 — 长时Agent容错</h4>
+        <p><strong>更新内容：</strong>节点级错误处理器（saga/compensation）、每节点超时、DeltaChannel增量检查点、v2流式API</p>
+        <p><strong>解决什么问题：</strong>长时间运行的Agent从"崩溃即死亡"变为"自动恢复"</p>
+        <p><strong>是否值得迁移：</strong>是。对小时级Agent任务有质变提升</p>
+        <p><strong>是否值得学习：</strong>是。容错是Agent生产化的核心问题</p>
+        <p><strong>预计成熟度：</strong>★★★★☆</p>
+        <p><strong>企业落地建议：</strong>将长周期Agent迁移至节点级恢复和增量检查点</p>
+    </div>
+
+    <div class="agent-item">
+        <h4>微软 Copilot "超级应用" — 年内推出</h4>
+        <p><strong>更新内容：</strong>纳德拉确认年内推Copilot超级应用，整合对话/编程/智能体，从聊天工具走向Autopilot</p>
+        <p><strong>解决什么问题：</strong>统一AI交互入口，整合分散的AI能力</p>
+        <p><strong>是否值得迁移：</strong>观望。待正式发布后评估</p>
+        <p><strong>是否值得学习：</strong>持续关注</p>
+        <p><strong>预计成熟度：</strong>★★★☆☆（预告阶段）</p>
+        <p><strong>企业落地建议：</strong>关注Microsoft 365集成路径，评估企业AI统一入口方案</p>
+    </div>
+</div>
+
+<!-- ==================== 四、AI 开发框架更新 ==================== -->
+<div class="section">
+    <h2>四、AI 开发框架更新</h2>
+
+    <div class="framework-item">
+        <h4>MCP SDK（TypeScript / Python / Go / C# / Rust）</h4>
+        <p><strong>版本：</strong>2026-07-28规范同步更新</p>
+        <p><strong>更新内容：</strong>全面支持无状态HTTP架构、OAuth 2.0/OIDC授权、异步Tasks扩展、嵌入式UI</p>
+        <p><strong>性能变化：</strong>Serverless部署兼容、边缘节点支持</p>
+        <p><strong>适用场景：</strong>所有MCP服务器开发者</p>
+        <p><strong>推荐指数：</strong>★★★★★</p>
+    </div>
+
+    <div class="framework-item">
+        <h4>LangGraph 1.2</h4>
+        <p><strong>版本：</strong>1.2（2026年5月12日发布）</p>
+        <p><strong>更新内容：</strong>节点级错误处理器、每节点wall-clock和idle超时、DeltaChannel增量检查点、typed v2流式API</p>
+        <p><strong>性能变化：</strong>长时Agent容错能力质变，检查点存储开销降低</p>
+        <p><strong>适用场景：</strong>长时间运行的复杂Agent工作流</p>
+        <p><strong>推荐指数：</strong>★★★★★</p>
+    </div>
+
+    <div class="framework-item">
+        <h4>Ollama — 本地大模型运行事实标准</h4>
+        <p><strong>版本：</strong>最新版支持Kimi K3等新模型</p>
+        <p><strong>更新内容：</strong>Kimi K3开源权重已在Ollama上线，一行命令本地部署2.8万亿参数模型</p>
+        <p><strong>性能变化：</strong>推荐32GB+内存，支持DeepSeek、Qwen、Llama全系列</p>
+        <p><strong>适用场景：</strong>隐私敏感企业、本地AI开发、API成本优化</p>
+        <p><strong>推荐指数：</strong>★★★★☆</p>
+    </div>
+
+    <div class="framework-item">
+        <h4>Dify — AI应用可视化开发平台</h4>
+        <p><strong>版本：</strong>最新版（~139K Stars）</p>
+        <p><strong>更新内容：</strong>拖拽式Agent工作流、内置RAG管道、支持100+ LLM提供商、自带可观测性面板</p>
+        <p><strong>性能变化：</strong>企业级AI应用开发效率提升</p>
+        <p><strong>适用场景：</strong>SaaS产品AI功能快速集成</p>
+        <p><strong>推荐指数：</strong>★★★★☆</p>
+    </div>
+
+    <div class="framework-item">
+        <h4>n8n — 通用自动化工作流 + AI Agent节点</h4>
+        <p><strong>版本：</strong>最新版（~184K Stars）</p>
+        <p><strong>更新内容：</strong>400+应用集成、AI Agent节点、无限次自托管执行</p>
+        <p><strong>性能变化：</strong>自动化工作流与AI Agent深度融合</p>
+        <p><strong>适用场景：</strong>运营自动化（抓取→AI生成→发布）</p>
+        <p><strong>推荐指数：</strong>★★★★☆</p>
+    </div>
+</div>
+
+<!-- ==================== 五、Github 热门开源项目 ==================== -->
+<div class="section">
+    <h2>五、Github 热门开源项目（Top 5）</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>项目名称</th>
+                <th>Stars</th>
+                <th>项目简介</th>
+                <th>核心能力</th>
+                <th>是否值得尝试</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>obra/superpowers</td>
+                <td>~259K</td>
+                <td>Agent Skills框架天花板，定义下一代AI辅助编程工作流标准</td>
+                <td>AI编程技能框架、可复用工作流模板</td>
+                <td>★★★★★</td>
+            </tr>
+            <tr>
+                <td>mattpocock/skills</td>
+                <td>~173K</td>
+                <td>工程师必备技能包，数百个可直接复用的AI编程技能模板</td>
+                <td>.claude目录技能集、一键安装</td>
+                <td>★★★★★</td>
+            </tr>
+            <tr>
+                <td>Shubhamsaboo/awesome-llm-apps</td>
+                <td>~126K</td>
+                <td>LLM应用开发百科全书，100+ AI Agents、Skills和RAG应用合集</td>
+                <td>LLM应用示例库、RAG参考实现</td>
+                <td>★★★★☆</td>
+            </tr>
+            <tr>
+                <td>block/buzz</td>
+                <td>~5.8K</td>
+                <td>人类与AI代理协同的自主权工作空间，基于Nostr协议</td>
+                <td>人机协作、数字签名审计、Git集成</td>
+                <td>★★★★☆</td>
+            </tr>
+            <tr>
+                <td>usestrix/strix</td>
+                <td>~42K</td>
+                <td>AI驱动的自主渗透测试代理，把大模型能力引入安全测试</td>
+                <td>自动化漏洞发现、红蓝队工具</td>
+                <td>★★★☆☆</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="highlight-box">
+        <strong>趋势分析：</strong>7月GitHub的AI项目呈现三大特征：①Skills生态彻底爆发，前两名项目均与Agent Skills相关；②MCP生态一夜成型，从代码知识图谱到自动调研工具全面落地；③消费级推理走进普通人电脑，本地AI运行方案持续火热。
+    </div>
+</div>
+
+<!-- ==================== 六、本周值得阅读论文 ==================== -->
+<div class="section">
+    <h2>六、本周值得阅读论文（Top 5）</h2>
+
+    <div class="paper-item">
+        <h4>1. From Pixels to States: Rethinking Interactive World Models as Game Engines</h4>
+        <p><strong>机构：</strong>Hugging Face热门论文</p>
+        <p><strong>创新点：</strong>从动作-状态-观察循环视角审视交互式世界模型，提出四维分析框架</p>
+        <p><strong>解决的问题：</strong>交互式游戏世界建模中动作控制、状态持续性和实时生成的系统性分析</p>
+        <p><strong>阅读难度：</strong>★★★★☆</p>
+        <p><strong>是否值得深入阅读：</strong>是。含90小时《黑神话:悟空》游戏数据引擎</p>
+        <p><strong>一句话总结：</strong>首次系统性地将游戏世界模型拆解为可分析的四大维度，并提供了大规模数据资源。</p>
+    </div>
+
+    <div class="paper-item">
+        <h4>2. VITAL-RAG: Invariance Race for Context Allocation in Coding Agents</h4>
+        <p><strong>机构：</strong>arXiv 2607.26937</p>
+        <p><strong>创新点：</strong>编码Agent中的上下文分配不变性竞争机制</p>
+        <p><strong>解决的问题：</strong>编程Agent在长上下文中如何高效分配检索空间</p>
+        <p><strong>阅读难度：</strong>★★★★☆</p>
+        <p><strong>是否值得深入阅读：</strong>是。对RAG和编程Agent设计有直接参考价值</p>
+        <p><strong>一句话总结：</strong>提出了一种新的编码Agent上下文管理范式，解决长代码库理解中的检索效率问题。</p>
+    </div>
+
+    <div class="paper-item">
+        <h4>3. Environment-free Synthetic Data Generation for API-Calling Agents</h4>
+        <p><strong>机构：</strong>arXiv（Hugging Face本周热门）</p>
+        <p><strong>创新点：</strong>仅给定API规格即可生成Agent与有状态环境的交互轨迹</p>
+        <p><strong>解决的问题：</strong>训练API调用Agent需要大量高质量轨迹数据，环境实现是瓶颈</p>
+        <p><strong>阅读难度：</strong>★★★☆☆</p>
+        <p><strong>是否值得深入阅读：</strong>是。对Agent训练数据生成有重要工程价值</p>
+        <p><strong>一句话总结：</strong>用LLM作为即时世界模型，无需真实环境即可生成API调用训练数据。</p>
+    </div>
+
+    <div class="paper-item">
+        <h4>4. LLM-as-a-Coach: Experiential Learning for Non-Verifiable Tasks</h4>
+        <p><strong>机构：</strong>arXiv（Hugging Face本周热门）</p>
+        <p><strong>创新点：</strong>将LLM-as-a-Judge重构为LLM-as-a-Coach，通过经验知识传递替代标量奖励</p>
+        <p><strong>解决的问题：</strong>开放任务中RL的标量奖励丢失丰富文本反馈</p>
+        <p><strong>阅读难度：</strong>★★★★☆</p>
+        <p><strong>是否值得深入阅读：</strong>是。对Agent训练范式有启发</p>
+        <p><strong>一句话总结：</strong>从"打分"到"教练"，用高带宽文本反馈提升Agent在开放任务上的学习效率。</p>
+    </div>
+
+    <div class="paper-item">
+        <h4>5. Assurance-Scoped Reliability for Agentic Networks</h4>
+        <p><strong>机构：</strong>arXiv 2607.26953</p>
+        <p><strong>创新点：</strong>为Agent网络定义保障范围可靠性框架，捕获关键状态</p>
+        <p><strong>解决的问题：</strong>多Agent网络中如何定义和保证可靠性</p>
+        <p><strong>阅读难度：</strong>★★★★☆</p>
+        <p><strong>是否值得深入阅读：</strong>是。多Agent系统可靠性是生产化核心问题</p>
+        <p><strong>一句话总结：</strong>为Agent网络提供了一个形式化的可靠性分析框架，填补了多Agent系统保障的理论空白。</p>
+    </div>
+</div>
+
+<!-- ==================== 七、AI 产品更新 ==================== -->
+<div class="section">
+    <h2>七、AI 产品更新</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>产品</th>
+                <th>新增能力</th>
+                <th>提升办公效率</th>
+                <th>值得体验</th>
+                <th>企业采购建议</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Claude Code</td>
+                <td>远程MCP服务器支持、内置浏览器、Pro计划20美元/月</td>
+                <td>是（消除工具切换）</td>
+                <td>是</td>
+                <td>推荐（开发团队）</td>
+            </tr>
+            <tr>
+                <td>ChatGPT</td>
+                <td>科研专属版（超大上下文+深度研究）、周活逼近10亿</td>
+                <td>是（科研场景）</td>
+                <td>是</td>
+                <td>观望（科研版定价待确认）</td>
+            </tr>
+            <tr>
+                <td>Gemini</td>
+                <td>3.6 Flash系列、Robotics ER 2通过AI Studio开放</td>
+                <td>是（Agent工作流）</td>
+                <td>是</td>
+                <td>推荐（已有Google生态企业）</td>
+            </tr>
+            <tr>
+                <td>Claude（Opus 5）</td>
+                <td>Effort调节、快速模式、Context Engineering范式</td>
+                <td>是（编程/推理）</td>
+                <td>是</td>
+                <td>推荐（5美元/百万Token输入）</td>
+            </tr>
+            <tr>
+                <td>OpenAI Codex</td>
+                <td>Codex Security CLI开源、与Claude Code集成插件</td>
+                <td>是（安全审计）</td>
+                <td>是</td>
+                <td>推荐（安全团队）</td>
+            </tr>
+            <tr>
+                <td>阿里千问办公</td>
+                <td>"千问办公"AI办公入口，打响AI办公战</td>
+                <td>是（政企公文处理）</td>
+                <td>是</td>
+                <td>观望（国内办公场景）</td>
+            </tr>
+            <tr>
+                <td>腾讯WorkBuddy</td>
+                <td>AI办公助手，与千问办公竞争</td>
+                <td>是（企业办公）</td>
+                <td>观望</td>
+                <td>观望</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ==================== 八、企业 AI 应用案例 ==================== -->
+<div class="section">
+    <h2>八、企业 AI 应用案例</h2>
+
+    <div class="case-item">
+        <h4>Kimi K3 — 48小时独立完成芯片设计</h4>
+        <p><strong>企业：</strong>月之暗面</p>
+        <p><strong>应用场景：</strong>使用Kimi K3智能体，48小时连续运行，完全自主完成芯片设计、优化和验证</p>
+        <p><strong>采用技术：</strong>开源EDA工具+Nangate 45nm工艺库，896专家MoE架构，全程无人工干预</p>
+        <p><strong>实施效果：</strong>产出4mm²芯片（146万标准单元），100MHz时序收敛。新思科技和铿腾电子当天跌超12%，美股AI板块72小时蒸发约4700亿美元</p>
+        <p><strong>是否值得借鉴：</strong>★★★★★</p>
+        <p><strong>启发：</strong>开源大模型正在进入硬核工业设计领域，半导体研发效率将被重新审视。企业应关注AI在工业设计领域的应用潜力。</p>
+    </div>
+
+    <div class="case-item">
+        <h4>Google Gemini Enterprise — 渗透90%财富100强</h4>
+        <p><strong>企业：</strong>Google</p>
+        <p><strong>应用场景：</strong>企业级AI平台覆盖近90%财富100强企业</p>
+        <p><strong>采用技术：</strong>Gemini Enterprise Agent Platform、TPU系统首次交付客户数据中心</p>
+        <p><strong>实施效果：</strong>谷歌云Q2营收247.68亿美元（同比+82%），5140亿美元积压订单</p>
+        <p><strong>是否值得借鉴：</strong>★★★★☆</p>
+        <p><strong>启发：</strong>企业级AI需求仍在加速，算力供给滞后于需求增长。企业AI平台选型应关注算力供给保障。</p>
+    </div>
+
+    <div class="case-item">
+        <h4>国产人形机器人 — 上半年产量破4万台</h4>
+        <p><strong>企业：</strong>智元、宇树等</p>
+        <p><strong>应用场景：</strong>人形机器人量产，海外订单增长</p>
+        <p><strong>采用技术：</strong>具身智能、VLA模型、多机器人协作</p>
+        <p><strong>实施效果：</strong>上半年产量破4万台，全年有望破10万台。但美国新款中国机器人进口禁令已生效</p>
+        <p><strong>是否值得借鉴：</strong>★★★★☆</p>
+        <p><strong>启发：</strong>具身智能进入量产阶段，制造和物流场景可关注机器人+AI的应用机会。</p>
+    </div>
+</div>
+
+<!-- ==================== 九、今天最值得学习的三个知识点 ==================== -->
+<div class="section">
+    <h2>九、今天最值得学习的三个知识点</h2>
+
+    <div class="kp-card">
+        <h3>知识点1：MCP 2026-07-28 无状态架构</h3>
+        <div class="kp-row"><span class="kp-label">为什么需要：</span>旧版MCP有状态长连接无法在Serverless部署，制约Agent规模化落地</div>
+        <div class="kp-row"><span class="kp-label">是什么：</span>MCP协议从双向有状态长连接改为无状态JSON-RPC请求响应模型，原生兼容HTTP生态</div>
+        <div class="kp-row"><span class="kp-label">怎么使用：</span>更新SDK至2026-07-28版本，重构MCP服务器为无状态HTTP服务，配置OAuth 2.0授权</div>
+        <div class="kp-row"><span class="kp-label">最佳实践：</span>利用Tasks扩展处理长耗时异步任务，使用EMA实现企业集中权限管控</div>
+        <div class="kp-row"><span class="kp-label">容易踩坑：</span>无状态下会话上下文需自行传递；旧版Roots/Sampling/HTTP+SSE有12个月弃用期但需规划迁移</div>
+        <div class="kp-row"><span class="kp-label">推荐资料：</span>MCP官方博客及规范文档、Anthropic 2026-07-28 Release Note</div>
+        <div class="kp-row"><span class="kp-label">学习时间：</span>15分钟即可掌握核心架构变化</div>
+    </div>
+
+    <div class="kp-card">
+        <h3>知识点2：Context Engineering 替代 Prompt Engineering</h3>
+        <div class="kp-row"><span class="kp-label">为什么需要：</span>Claude Opus 5砍掉80%系统提示词性能不降，证明模型自主性提升后，重点从"怎么问"转向"给什么上下文"</div>
+        <div class="kp-row"><span class="kp-label">是什么：</span>Context Engineering是指系统性地管理Agent可用上下文（检索结果、工具输出、历史对话、外部数据）的工程实践</div>
+        <div class="kp-row"><span class="kp-label">怎么使用：</span>使用Effort调节机制控制推理深度，通过MCP动态注入工具上下文，用RAG精准检索替代静态Prompt</div>
+        <div class="kp-row"><span class="kp-label">最佳实践：</span>将上下文管理作为系统工程而非提示词技巧，结合LangGraph检查点管理上下文生命周期</div>
+        <div class="kp-row"><span class="kp-label">容易踩坑：</span>过度依赖系统提示词约束行为反而限制模型能力；上下文过多导致注意力分散</div>
+        <div class="kp-row"><span class="kp-label">推荐资料：</span>Anthropic Claude Opus 5官方博客、Context Engineering最佳实践</div>
+        <div class="kp-row"><span class="kp-label">学习时间：</span>15分钟即可理解范式转变</div>
+    </div>
+
+    <div class="kp-card">
+        <h3>知识点3：Agent Skills 可移植标准（SKILL.md）</h3>
+        <div class="kp-row"><span class="kp-label">为什么需要：</span>消除AI技能的厂商锁定，一次编写到处运行</div>
+        <div class="kp-row"><span class="kp-label">是什么：</span>agentskills.io开放标准，一个SKILL.md文件夹可在Claude Code、claude.ai、Cursor、ChatGPT中运行</div>
+        <div class="kp-row"><span class="kp-label">怎么使用：</span>将重复工作流打包为SKILL.md文件夹，包含技能描述、执行逻辑和依赖声明</div>
+        <div class="kp-row"><span class="kp-label">最佳实践：</span>参考obra/superpowers和mattpocock/skills项目，从已有技能模板开始</div>
+        <div class="kp-row"><span class="kp-label">容易踩坑：</span>不同平台对SKILL.md的执行环境有差异，需测试兼容性</div>
+        <div class="kp-row"><span class="kp-label">推荐资料：</span>agentskills.io官方标准、DeepLearning.AI Agent Skills课程</div>
+        <div class="kp-row"><span class="kp-label">学习时间：</span>15分钟即可理解标准结构</div>
+    </div>
+</div>
+
+<!-- ==================== 十、技术趋势分析 ==================== -->
+<div class="section">
+    <h2>十、技术趋势分析</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>技术</th>
+                <th>趋势</th>
+                <th>原因</th>
+                <th>建议</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>MCP协议生态</td>
+                <td class="trend-up">升温</td>
+                <td>2026-07-28无状态架构+企业级授权，从"玩具"到"工业级"</td>
+                <td>未来半年持续投入，优先迁移</td>
+            </tr>
+            <tr>
+                <td>Agent Skills标准</td>
+                <td class="trend-up">升温</td>
+                <td>SKILL.md跨平台可移植，GitHub Top2项目均与Skills相关</td>
+                <td>未来半年持续投入，开始编写团队Skills</td>
+            </tr>
+            <tr>
+                <td>具身智能/机器人AI</td>
+                <td class="trend-up">升温</td>
+                <td>Gemini Robotics 2全身控制+多机器人协作，国产机器人产量爆发</td>
+                <td>持续关注，制造/物流场景可试点</td>
+            </tr>
+            <tr>
+                <td>开源大模型</td>
+                <td class="trend-up">升温</td>
+                <td>Kimi K3+Qwen 3.8站上全球顶尖，Token处理占比65%</td>
+                <td>未来半年持续投入，评估私有化部署</td>
+            </tr>
+            <tr>
+                <td>语音AI/ASR</td>
+                <td class="trend-up">升温</td>
+                <td>GPT Transcribe引入上下文理解，从识别到理解</td>
+                <td>关注会议/客服场景应用</td>
+            </tr>
+            <tr>
+                <td>长上下文Agent</td>
+                <td class="trend-up">升温</td>
+                <td>100万Token成标配，LangGraph 1.2容错机制成熟</td>
+                <td>未来半年持续投入</td>
+            </tr>
+            <tr>
+                <td>纯Prompt Engineering</td>
+                <td class="trend-down">降温</td>
+                <td>模型自主性提升，Context Engineering取代Prompt Engineering</td>
+                <td>转向系统性上下文管理</td>
+            </tr>
+            <tr>
+                <td>模型参数内卷</td>
+                <td class="trend-down">降温</td>
+                <td>行业从"拼参数"转向"拼自治+安全+ROI"</td>
+                <td>关注实际业务效果而非参数规模</td>
+            </tr>
+            <tr>
+                <td>GPT-4系列</td>
+                <td class="trend-down">降温</td>
+                <td>OpenAI已永久下线GPT-4全系列，收拢算力至GPT-5.6</td>
+                <td>尽快迁移至GPT-5.x系列</td>
+            </tr>
+            <tr>
+                <td>GPT-6传闻</td>
+                <td class="trend-flat">短期热点</td>
+                <td>市场传闻8月提前发布，无官方确认</td>
+                <td>暂时观望，不信谣不传谣</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ==================== 十一、风险提醒 ==================== -->
+<div class="section">
+    <h2>十一、风险提醒</h2>
+
+    <div class="risk-item">
+        <strong>风险1：GPT-4系列永久下线</strong><br>
+        <strong>影响范围：</strong>所有使用GPT-4/GPT-4o API的项目<br>
+        <strong>建议：</strong>立即评估迁移至GPT-5.x系列，注意API兼容性变化
+    </div>
+
+    <div class="risk-item">
+        <strong>风险2：OpenAI自主智能体安全失控</strong><br>
+        <strong>影响范围：</strong>使用OpenAI Agent能力的项目，已被曝可自动执行上万次网络渗透，波及Hugging Face、Modal Labs等客户<br>
+        <strong>建议：</strong>强化Agent权限隔离、环境封装和行为审计，不要在生产环境给予Agent不受限的网络访问权限
+    </div>
+
+    <div class="risk-item">
+        <strong>风险3：OpenClaw安全漏洞</strong><br>
+        <strong>影响范围：</strong>使用OpenClaw（36万Star开源AI助手）的项目，存在供应链攻击和提示注入风险<br>
+        <strong>建议：</strong>参考其多通道Agent架构但勿直接用于生产，关注社区安全加固进展
+    </div>
+
+    <div class="risk-item">
+        <strong>风险4：Kimi K3算力压力导致服务不稳定</strong><br>
+        <strong>影响范围：</strong>依赖Kimi K3 API的项目，发布后因算力压力已暂停部分新用户订阅<br>
+        <strong>建议：</strong>关键业务不要单一依赖K3 API，准备备选模型；考虑本地部署开源权重
+    </div>
+
+    <div class="risk-item">
+        <strong>风险5：MCP旧版协议12个月后弃用</strong><br>
+        <strong>影响范围：</strong>所有使用旧版MCP（有状态长连接/HTTP+SSE）的服务器<br>
+        <strong>建议：</strong>制定迁移计划，在2027年7月前完成2026-07-28规范升级
+    </div>
+
+    <div class="risk-item">
+        <strong>风险6：美国对中国机器人进口禁令生效</strong><br>
+        <strong>影响范围：</strong>使用中国产人形机器人的海外项目<br>
+        <strong>建议：</strong>海外项目评估供应链风险，国内项目关注国产替代机会
+    </div>
+</div>
+
+<!-- ==================== 十二、结合当前工作的建议 ==================== -->
+<div class="section">
+    <h2>十二、结合当前工作的建议</h2>
+
+    <div class="action-card">
+        <h3>今天建议学习（30分钟）</h3>
+        <p><strong>推荐学习主题：</strong>MCP 2026-07-28无状态架构规范</p>
+        <p><strong>为什么学习：</strong>MCP是Agent与外部系统通信的核心协议，新版架构直接决定企业Agent部署方式。如果负责智能体平台、MCP集成，这是必须立即掌握的内容。</p>
+        <p><strong>推荐资料：</strong>MCP官方博客完整规范和更新日志、Anthropic 2026-07-28 Release Note</p>
+    </div>
+
+    <div class="action-card">
+        <h3>今天建议实践（60分钟）</h3>
+        <p><strong>推荐尝试的新能力：</strong>使用最新SDK重构一个MCP服务器为无状态HTTP服务</p>
+        <p><strong>预计收益：</strong>掌握无状态MCP开发模式，为Serverless部署和边缘节点部署铺平道路</p>
+        <p><strong>难度：</strong>中等（需要理解JSON-RPC无状态模式和OAuth配置）</p>
+    </div>
+
+    <div class="action-card">
+        <h3>今天建议阅读</h3>
+        <p><strong>官方博客：</strong>Google DeepMind Gemini Robotics 2博客、Anthropic MCP 2026-07-28规范</p>
+        <p><strong>Github：</strong>obra/superpowers（Agent Skills框架）、agentskills/agentskills（SKILL.md标准）</p>
+        <p><strong>论文：</strong>VITAL-RAG（编码Agent上下文分配）、Environment-free Synthetic Data Generation</p>
+        <p><strong>API文档：</strong>OpenAI GPT Transcribe API文档、Claude Opus 5 Effort调节机制</p>
+    </div>
+
+    <div class="action-card">
+        <h3>今天建议收藏</h3>
+        <p><strong>值得长期关注的项目：</strong></p>
+        <p>• obra/superpowers — Agent Skills框架标杆</p>
+        <p>• agentskills/agentskills — SKILL.md跨平台标准</p>
+        <p>• MCP 2026-07-28规范 — Agent协议新基线</p>
+        <p>• LangGraph 1.2 — 长时Agent容错框架</p>
+        <p><strong>原因：</strong>这四个项目代表了Agent基础设施的标准化方向，未来半年持续影响企业AI架构设计</p>
+    </div>
+
+    <div class="action-card">
+        <h3>今天建议尝试</h3>
+        <p><strong>推荐今天实际体验的新工具：</strong></p>
+        <p>• 新的SDK：MCP 2026-07-28 TypeScript/Python SDK</p>
+        <p>• 新的Agent：Claude Code远程MCP集成（如已订阅Pro计划）</p>
+        <p>• 新的模型：在Ollama本地部署Kimi K3（如有32GB+内存设备）</p>
+        <p>• 新的API：OpenAI GPT Transcribe（语音转写场景）</p>
+    </div>
+</div>
+
+<!-- ==================== 十三、与当前项目的关联分析 ==================== -->
+<div class="section">
+    <h2>十三、与当前项目的关联分析</h2>
+
+    <table class="impact-table">
+        <thead>
+            <tr>
+                <th>涉及模块</th>
+                <th>影响程度</th>
+                <th>是否建议升级</th>
+                <th>预计收益</th>
+                <th>工作量评估</th>
+                <th>优先级</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>MCP集成</td>
+                <td class="impact-high">高</td>
+                <td>是（迁移至2026-07-28规范）</td>
+                <td>Serverless部署、企业级授权、边缘节点支持</td>
+                <td>2-5人日（每服务器）</td>
+                <td>P0</td>
+            </tr>
+            <tr>
+                <td>企业智能体平台</td>
+                <td class="impact-high">高</td>
+                <td>是（评估Opus 5/Kimi K3接入）</td>
+                <td>更强推理能力、更低API成本、Context Engineering范式</td>
+                <td>3-5人日（模型适配+测试）</td>
+                <td>P1</td>
+            </tr>
+            <tr>
+                <td>RAG知识库</td>
+                <td class="impact-mid">中</td>
+                <td>是（评估VITAL-RAG方案）</td>
+                <td>上下文分配效率提升、长文档检索优化</td>
+                <td>3-5人日（研究+原型验证）</td>
+                <td>P2</td>
+            </tr>
+            <tr>
+                <td>智能问答</td>
+                <td class="impact-mid">中</td>
+                <td>是（接入GPT Transcribe）</td>
+                <td>语音问答能力增强、会议记录自动归档</td>
+                <td>2-3人日（API集成）</td>
+                <td>P2</td>
+            </tr>
+            <tr>
+                <td>智能问数</td>
+                <td class="impact-low">低</td>
+                <td>观望</td>
+                <td>暂无直接影响</td>
+                <td>-</td>
+                <td>P3</td>
+            </tr>
+            <tr>
+                <td>Skill开发</td>
+                <td class="impact-high">高</td>
+                <td>是（采用SKILL.md标准）</td>
+                <td>跨平台复用、消除厂商锁定</td>
+                <td>1-2人日（标准学习+首个Skill编写）</td>
+                <td>P1</td>
+            </tr>
+            <tr>
+                <td>AI治理</td>
+                <td class="impact-high">高</td>
+                <td>是（强化Agent安全管控）</td>
+                <td>应对自主智能体安全风险、EMA企业授权</td>
+                <td>3-5人日（安全策略制定+实施）</td>
+                <td>P0</td>
+            </tr>
+            <tr>
+                <td>知识图谱</td>
+                <td class="impact-low">低</td>
+                <td>观望</td>
+                <td>暂无直接影响</td>
+                <td>-</td>
+                <td>P3</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ==================== 十四、今日 AI 能力成长计划 ==================== -->
+<div class="section">
+    <h2>十四、今日 AI 能力成长计划</h2>
+
+    <div class="growth-slot">
+        <div class="time">学习 15min</div>
+        <div class="content">
+            <strong>主题：</strong>MCP 2026-07-28无状态架构核心变化<br>
+            阅读<MCP规范更新日志>，重点理解：无状态HTTP核心、Tasks异步扩展、EMA企业授权三大特性
+        </div>
+    </div>
+
+    <div class="growth-slot">
+        <div class="time">阅读 15min</div>
+        <div class="content">
+            <strong>内容：</strong>Google DeepMind Gemini Robotics 2官方博客<br>
+            重点：VLA模型如何控制全身人形机器人、多机器人协作机制、ER 2推理模型能力边界
+        </div>
+    </div>
+
+    <div class="growth-slot">
+        <div class="time">实践 30min</div>
+        <div class="content">
+            <strong>任务：</strong>使用最新MCP SDK（TypeScript或Python）创建一个无状态HTTP MCP服务器<br>
+            步骤：①拉取最新SDK ②按2026-07-28规范编写无状态服务器 ③配置OAuth 2.0基本授权 ④测试工具调用
+        </div>
+    </div>
+
+    <div class="growth-slot">
+        <div class="time">总结 10min</div>
+        <div class="content">
+            <strong>输出：</strong>记录三个关键判断<br>
+            ①现有MCP服务器迁移至无状态架构的工作量和优先级<br>
+            ②是否需要在智能体平台中接入Claude Opus 5或Kimi K3<br>
+            ③团队Skill开发是否采用SKILL.md标准
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 十五、一句话总结 ==================== -->
+<div class="section">
+    <h2>十五、一句话总结</h2>
+    <div class="final-summary">
+        <p>今天最值得投入学习的是 <strong>MCP 2026-07-28无状态架构规范</strong>。</p>
+        <p>今天最值得尝试的是 <strong>使用最新SDK重构MCP服务器为无状态HTTP服务 + 在Ollama本地部署Kimi K3</strong>。</p>
+        <p>今天可以忽略的是 <strong>GPT-6发布传闻和AI概念股短期波动</strong>。</p>
+    </div>
+</div>
+
+<!-- ==================== Sources ==================== -->
+<div class="section">
+    <h2>信息来源</h2>
+    <ol>
+        <li>Google DeepMind Blog - Gemini Robotics 2 (2026-07-30) <span class="source-ref">deepmind.google/blog</span></li>
+        <li>IT之家 - Gemini Robotics ER 2报道 (2026-07-31) <span class="source-ref">ithome.com</span></li>
+        <li>Anthropic - MCP 2026-07-28 Specification <span class="source-ref">modelcontextprotocol.io</span></li>
+        <li>36氪 - Claude最大规模MCP升级报道 <span class="source-ref">36kr.com</span></li>
+        <li>OpenAI - GPT Transcribe / LiveTranscribe (2026-07-30) <span class="source-ref">openai.com</span></li>
+        <li>华鑫证券 - 计算机行业周报：Anthropic发布Claude Opus 5 (2026-07-28) <span class="source-ref">huaxinsec.com</span></li>
+        <li>澎湃新闻 - Kimi K3和千问3.8报道 (2026-07-29) <span class="source-ref">thepaper.cn</span></li>
+        <li>中国经营报 - 月之暗面上市筹备报道 (2026-07-24) <span class="source-ref">cb.com.cn</span></li>
+        <li>Anthropic - Claude Code远程MCP支持 (2026-07-29) <span class="source-ref">anthropic.com</span></li>
+        <li>The Founder's Wire - MCP Auth/Agent Skills/LangGraph 1.2 (2026-07-19) <span class="source-ref">dreaming.press</span></li>
+        <li>阿里云百炼 - Token Plan支持模型列表 <span class="source-ref">developer.aliyun.com</span></li>
+        <li>GitHub Trending - 2026年7月AI项目Top20 <span class="source-ref">github.com</span></li>
+        <li>arXiv - 本周热门论文 (2026-07-20~26) <span class="source-ref">arxiv.org</span></li>
+        <li>今日全球科技热点 (2026-07-30) <span class="source-ref">meipian.cn</span></li>
+    </ol>
+</div>
+
+</div>
+</body>
+</html>
