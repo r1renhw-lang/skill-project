@@ -17,11 +17,11 @@ skill-project/
     ├── MagAI-Knowledge-Accelerator-Skill/
     ├── MagAI-Model-Comparison-Assistant/
     ├── MagAI-Personal-Meeting-Assistant/
+    ├── MagAI-Personal-Todo-Assistant/
     ├── MagAI-Prompt-Architect-Assistant/
     ├── MagAI-Requirement-Estimator/
     ├── MagAI-Skill-Architect-Skill/
-    ├── MagAI-Tech-Trend-Radar/
-    └── Accumulate-Data/                         # Daily Tech Tracker 产出的 HTML 日报
+    └── MagAI-Tech-Trend-Radar/
 ```
 
 单个 Skill 的标准目录结构：
@@ -35,14 +35,14 @@ MagAI-XXX/
 
 ## Skills 总览
 
-共 **12** 个 Skills，按场景分为四类：
+共 **13** 个 Skills，按场景分为四类：
 
 | 类别 | 数量 | 说明 |
 | --- | --- | --- |
 | 元能力 | 2 | 项目规范与 Skill 设计 |
 | 智能体建设 | 4 | 从需求分析到 Prompt / 流程 / 工时评估 |
 | 技术研判与学习 | 4 | 趋势分析、日报追踪、知识速通、模型对比 |
-| 业务辅助 | 2 | 招聘面试与个人会议整理 |
+| 业务辅助 | 3 | 招聘面试、个人会议整理与企业微信待办管理 |
 
 ---
 
@@ -83,6 +83,7 @@ MagAI-XXX/
 | --- | --- | --- |
 | `mag-ai-engineer-resume-interview-assistant` | `skills/MagAI-Engineer-Resume-Interview-Assistant/` | AI 工程师简历分析与面试助手。根据 AI 工程师简历，分析候选人的技术能力、项目经验、优势不足、岗位匹配度，并生成针对性的面试问题和招聘建议。 |
 | `mag-ai-personal-meeting-assistant` | `skills/MagAI-Personal-Meeting-Assistant/` | 个人会议助手。将会议、讨论、AI 对话和学习笔记整理为会议纪要和知识资产，提炼重点、待办事项、个人思考和知识卡片，并支持导出 RTF 文档。 |
+| `mag-ai-personal-todo-assistant` | `skills/MagAI-Personal-Todo-Assistant/` | 企业微信待办管理助手。通过自然语言创建、修改、查看、删除企业微信待办，基于 `wecom-cli` 完成待办操作。 |
 
 ---
 
@@ -95,6 +96,7 @@ MagAI-XXX/
 - 「分析这段智能体需求」→ `mag-ai-agent-requirement-analysis-assistant`
 - 「对比 Claude 和 GPT 在这个场景下的表现」→ `mag-ai-model-comparison-assistant`
 - 「生成今天的 AI 技术日报」→ `mag-ai-daily-tech-tracker`
+- 「帮我记一下明天开会」→ `mag-ai-personal-todo-assistant`
 - 「帮我设计一个新的 Skill」→ `mag-ai-skill-architect`
 
 部分 Skill 配置了 `agents/openai.yaml`，可在 Codex 界面中通过 `$skill-name` 直接引用。

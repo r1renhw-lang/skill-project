@@ -14,6 +14,7 @@
 | mag-ai-knowledge-accelerator | AI 知识速通：通过结构化拆解、通俗解释、技术定位、实践总结和关联学习路径，帮助快速掌握 AI 技术概念。 |
 | mag-ai-model-comparison-assistant | AI 模型对比：帮助 AI 技术人员快速理解、分析和比较大语言模型，辅助企业模型选型。 |
 | mag-ai-personal-meeting-assistant | 个人会议助手：将会议、讨论、AI 对话和学习笔记整理为会议纪要和知识资产，提炼重点、待办事项、个人思考和知识卡片，并支持导出 RTF 文档。 |
+| mag-ai-personal-todo-assistant | 企业微信待办管理助手：通过自然语言创建、修改、查看、删除企业微信待办，基于 wecom-cli 完成待办操作。 |
 | mag-ai-prompt-architect-assistant | Prompt 架构设计：根据业务需求设计高质量、结构化、可维护的 Prompt，并输出设计思路、优化建议和适配不同模型的版本。 |
 | mag-ai-requirement-estimator | AI 需求评估与工时估算：基于业务需求拆解开发工作、评估开发复杂度、估算开发工时、识别技术风险，并输出可解释的工时评估结果。 |
 | mag-ai-skill-architect | Skill 设计：根据业务需求完成 Skill 需求分析、架构设计、Prompt 设计、Workflow 规划和 Skill.md 生成，并对已有 Skill 进行评审和优化。 |
