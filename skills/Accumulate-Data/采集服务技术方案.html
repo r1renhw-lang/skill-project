@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>采集服务 - 技术方案文档</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #24292e; background: #fff; }
+h1,h2,h3,h4,h5,h6 { margin-top: 1.5em; margin-bottom: 0.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.25em; }
+h4 { font-size: 1.1em; }
+code { background: #f6f8fa; padding: 0.2em 0.4em; border-radius: 3px; font-size: 85%; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+pre { background: #f6f8fa; padding: 1em; border-radius: 6px; overflow-x: auto; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 4px solid #dfe2e5; margin: 0; padding: 0.5em 1em; color: #6a737d; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #dfe2e5; padding: 6px 13px; }
+th { background: #f6f8fa; font-weight: 600; }
+img { max-width: 100%; }
+a { color: #0366d6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+hr { border: none; border-top: 2px solid #eaecef; }
+ul, ol { padding-left: 2em; }
+.mermaid { text-align: center; margin: 1.5em 0; }
+strong { font-weight: 600; }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.mermaid) {
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    }
+  });
+</script>
+
+</head>
+<body>
+<h1>采集服务 - 技术方案文档</h1>
+<h2>1. 数据库设计</h2>
+<h3>1.1 表清单</h3>
+<table>
+<thead><tr>
+<th>序号</th>
+<th>表名</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>emp_info</code></td>
+<td>基础数据_员工表</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>emp_org_structure</code></td>
+<td>基础数据_组织数据</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>basic_role_info</code></td>
+<td>基础数据_角色表</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>mapping_user_role</code></td>
+<td>基础数据_人员角色关系表</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>data_resource</code></td>
+<td>基础数据_数据资源配置</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>mapping_resource_role</code></td>
+<td>基础数据_角色数据资源关系表</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>data_scope_rule</code></td>
+<td>基础数据_数据范围规则配置</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>mapping_rule_role</code></td>
+<td>基础数据_角色数据范围规则关系表</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>basic_schema_attr</code></td>
+<td>基础数据_基础Schema属性配置</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>emp_leave_record</code></td>
+<td>外部数据_员工请休假记录</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>emp_annual_leave_ledger</code></td>
+<td>外部数据_员工年假台账</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>emp_cert_info</code></td>
+<td>外部数据_员工证书信息</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>emp_work_info</code></td>
+<td>外部数据_员工工作信息</td>
+</tr>
+</tbody>
+</table>
+<h3>1.2 表结构说明</h3>
+<table>
+<thead><tr>
+<th>序号</th>
+<th>表名</th>
+<th>业务主键</th>
+<th>核心字段</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>emp_info</code></td>
+<td><code>md_id</code></td>
+<td><code>user_code</code>, <code>name</code>, <code>enable_state</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>emp_org_structure</code></td>
+<td><code>md_id</code></td>
+<td><code>code</code>,<code>name</code>,<code>enable_state</code>,<code>parent_md_id</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>basic_role_info</code></td>
+<td><code>id</code></td>
+<td><code>role_name</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>data_resource</code></td>
+<td><code>id</code></td>
+<td><code>resource_code</code>,<code>resource_name</code>,<code>resource_type</code>,<code>target_table</code>,<br /><code>api_path</code>,<code>call_interval</code>,<code>status</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>data_scope_rule</code></td>
+<td><code>id</code></td>
+<td><code>data_resource_id</code>,<code>scope_rule_code</code>,<code>scope_rule_name</code>,<code>expression_content</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>basic_schema_attr</code></td>
+<td><code>id</code></td>
+<td><code>multivalued</code>,<code>attr_name</code>,<code>required</code>,<code>attr_type</code>,<code>attr_group</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>emp_leave_record</code></td>
+<td><code>record_id</code></td>
+<td><code>emp_md_id</code>, <code>leave_days</code>, <code>leave_status_code</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>emp_annual_leave_ledger</code></td>
+<td><code>ledger_id</code></td>
+<td><code>emp_md_id</code>, <code>annual_leave_days</code>, <code>annual_leave_rem_days</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>emp_cert_info</code></td>
+<td><code>emp_cert_id</code></td>
+<td><code>hr_md_id</code>, <code>cert_name</code>, <code>cert_code</code>, <code>cert_validity_time</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>emp_work_info</code></td>
+<td><code>work_id</code></td>
+<td><code>hr_md_id</code>, <code>post_code</code>, <code>post_name</code>, <code>is_main_post</code></td>
+</tr>
+</tbody>
+</table>
+<h3>1.3 表关系说明</h3>
+<table>
+<thead><tr>
+<th>关系ID</th>
+<th>主表</th>
+<th>从表</th>
+<th>关系类型</th>
+<th>外键字段</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td><code>emp_info</code></td>
+<td><code>emp_leave_record</code></td>
+<td>1:N</td>
+<td><code>emp_md_id</code></td>
+<td>员工与请假记录</td>
+</tr>
+<tr>
+<td>R2</td>
+<td><code>emp_info</code></td>
+<td><code>emp_annual_leave_ledger</code></td>
+<td>1:N</td>
+<td><code>emp_md_id</code></td>
+<td>员工与年假台账</td>
+</tr>
+<tr>
+<td>R3</td>
+<td><code>emp_info</code></td>
+<td><code>emp_cert_info</code></td>
+<td>1:N</td>
+<td><code>hr_md_id</code></td>
+<td>员工与证书信息</td>
+</tr>
+<tr>
+<td>R4</td>
+<td><code>emp_info</code></td>
+<td><code>emp_work_info</code></td>
+<td>1:N</td>
+<td><code>hr_md_id</code></td>
+<td>员工与工作记录</td>
+</tr>
+<tr>
+<td>R5</td>
+<td><code>emp_org_structure</code></td>
+<td><code>emp_info</code></td>
+<td>1:N</td>
+<td>隐式关联</td>
+<td>组织与员工</td>
+</tr>
+<tr>
+<td>R6</td>
+<td><code>emp_org_structure</code></td>
+<td><code>emp_org_structure</code></td>
+<td>1:N</td>
+<td><code>parent_md_id</code></td>
+<td>组织层级关系</td>
+</tr>
+<tr>
+<td>R7</td>
+<td><code>data_resource</code></td>
+<td><code>data_scope_rule</code></td>
+<td>1:N</td>
+<td><code>resource_id</code></td>
+<td>资源与范围规则</td>
+</tr>
+<tr>
+<td>R8</td>
+<td><code>emp_info</code></td>
+<td><code>tb_user_job</code></td>
+<td>1:N</td>
+<td><code>user_id</code></td>
+<td>员工与岗位关联</td>
+</tr>
+</tbody>
+</table>
+<h3>1.4 建表 SQL</h3>
+<p>
+<strong>emp_info 表</strong>
+</p>
+<pre><code class="language-sql">
+CREATE TABLE `emp_info` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT &#x27;自增主键&#x27;,
+  `md_id` VARCHAR(64) NOT NULL COMMENT &#x27;员工主数据ID(业务主键)&#x27;,
+  `user_code` VARCHAR(64) NOT NULL COMMENT &#x27;员工工号&#x27;,
+  `name` VARCHAR(128) NOT NULL COMMENT &#x27;员工姓名&#x27;,
+  `enable_state_code` INT NULL DEFAULT 2 COMMENT &#x27;启用状态编码&#x27;,
+  `enable_state` VARCHAR(32) NULL DEFAULT &#x27;已启用&#x27; COMMENT &#x27;启用状态&#x27;,
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT &#x27;是否删除&#x27;,
+  `created_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#x27;创建时间&#x27;,
+  `updated_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT &#x27;更新时间&#x27;,
+  `data_collection_time` DATETIME NULL COMMENT &#x27;数据采集时间&#x27;,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uk_md_id` (`md_id`),
+  INDEX `idx_user_code` (`user_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT=&#x27;外部数据_员工主数据&#x27;;
+</code></pre>
+<p>
+<strong>emp_leave_record 表</strong>
+</p>
+<pre><code class="language-sql">
+CREATE TABLE `emp_leave_record` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT &#x27;自增主键&#x27;,
+  `record_id` VARCHAR(64) NOT NULL COMMENT &#x27;请休假记录ID&#x27;,
+  `emp_md_id` VARCHAR(64) NULL COMMENT &#x27;员工主数据ID&#x27;,
+  `emp_no` VARCHAR(64) NULL COMMENT &#x27;员工工号&#x27;,
+  `emp_name` VARCHAR(128) NULL COMMENT &#x27;员工姓名&#x27;,
+  `dept_md_id` VARCHAR(64) NULL COMMENT &#x27;部门主数据ID&#x27;,
+  `leave_type_name` VARCHAR(128) NULL COMMENT &#x27;请休假类型名称&#x27;,
+  `leave_start_date` DATE NULL COMMENT &#x27;请休假开始日期&#x27;,
+  `leave_end_date` DATE NULL COMMENT &#x27;请休假结束日期&#x27;,
+  `leave_days` DECIMAL(10,2) NULL DEFAULT 0 COMMENT &#x27;请休假天数&#x27;,
+  `leave_status_code` INT NULL COMMENT &#x27;请休假状态编码&#x27;,
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT &#x27;是否删除&#x27;,
+  `data_collection_time` DATETIME NULL COMMENT &#x27;数据采集时间&#x27;,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uk_record_id` (`record_id`),
+  INDEX `idx_emp_md_id` (`emp_md_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT=&#x27;外部数据_员工请休假记录&#x27;;
+</code></pre>
+<p>
+<strong>emp_org_structure 表</strong>
+</p>
+<pre><code class="language-sql">
+CREATE TABLE `emp_org_structure` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT &#x27;自增主键&#x27;,
+  `md_id` VARCHAR(64) NOT NULL COMMENT &#x27;组织主数据ID&#x27;,
+  `code` VARCHAR(64) NOT NULL COMMENT &#x27;组织编码&#x27;,
+  `name` VARCHAR(256) NOT NULL COMMENT &#x27;组织名称&#x27;,
+  `simple_name` VARCHAR(128) NULL COMMENT &#x27;组织简称&#x27;,
+  `enable_state_code` INT NULL DEFAULT 2 COMMENT &#x27;启用状态编码&#x27;,
+  `entity_type` VARCHAR(32) NULL COMMENT &#x27;实体组织类型&#x27;,
+  `parent_md_id` VARCHAR(64) NULL COMMENT &#x27;上级组织主数据ID&#x27;,
+  `sort_no` INT NULL DEFAULT 0 COMMENT &#x27;排序编码&#x27;,
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT &#x27;是否删除&#x27;,
+  `data_collection_time` DATETIME NULL COMMENT &#x27;数据采集时间&#x27;,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uk_md_id` (`md_id`),
+  UNIQUE INDEX `uk_code` (`code`),
+  INDEX `idx_parent_md_id` (`parent_md_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT=&#x27;外部数据_组织架构主数据&#x27;;
+</code></pre>
+<h2>2. 架构设计</h2>
+<h3>2.1 系统架构图</h3>
+<div class="mermaid">flowchart TD
+    subgraph 外部系统
+        BD[大数据平台]
+        IAM[IAM认证系统]
+    end
+    
+    subgraph 采集服务
+        subgraph Controller层
+            PC[CollectPersonnelController]
+            IC[IamController]
+        end
+        
+        subgraph Filter层
+            AKF[ApiKeyFilter]
+        end
+        
+        subgraph Service层
+            PCS[PersonnelCollectService]
+            IDSS[IamDataSyncService]
+        end
+        
+        subgraph 公共组件
+            BDHC[BigDataHttpClient]
+        end
+        
+        subgraph Repository层
+            EIS[EmpInfoService]
+            EOS[EmpOrgStructureService]
+        end
+    end
+    
+    subgraph 数据层
+        DB[(MySQL)]
+        R[(Redis)]
+    end
+
+    BD --&gt; BDHC
+    IAM --&gt; IC
+    PC --&gt; PCS
+    IC --&gt; IDSS
+    PCS --&gt; BDHC
+    IDSS --&gt; EIS
+    IDSS --&gt; EOS
+    EIS --&gt; DB
+    EOS --&gt; DB</div>
+<h3>2.2 技术栈说明</h3>
+<table>
+<thead><tr>
+<th>分类</th>
+<th>技术</th>
+<th>版本</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>语言</td>
+<td>Java</td>
+<td>17</td>
+<td>LTS 版本</td>
+</tr>
+<tr>
+<td>框架</td>
+<td>Spring Boot</td>
+<td>3.2.x</td>
+<td>WebFlux 响应式编程</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>MySQL</td>
+<td>8.0+</td>
+<td>关系型数据库</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>MyBatis Plus</td>
+<td>3.5.x</td>
+<td>增强版 MyBatis</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>Redis</td>
+<td>7.0+</td>
+<td>分布式缓存</td>
+</tr>
+<tr>
+<td>HTTP客户端</td>
+<td>WebClient</td>
+<td>-</td>
+<td>Spring 响应式 HTTP 客户端</td>
+</tr>
+<tr>
+<td>加密</td>
+<td>SM4/SM3</td>
+<td>-</td>
+<td>国密算法</td>
+</tr>
+</tbody>
+</table>
+<h2>3. 数据模型</h2>
+<h3>3.1 实体字段说明</h3>
+<p>
+<strong>EmpInfo（员工主数据）</strong>
+</p>
+<table>
+<thead><tr>
+<th>字段名</th>
+<th>类型</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>md_id</code></td>
+<td>String</td>
+<td>员工主数据ID（业务主键）</td>
+</tr>
+<tr>
+<td><code>user_code</code></td>
+<td>String</td>
+<td>员工工号</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>String</td>
+<td>员工姓名</td>
+</tr>
+<tr>
+<td><code>enable_state_code</code></td>
+<td>Integer</td>
+<td>启用状态编码</td>
+</tr>
+<tr>
+<td><code>enable_state</code></td>
+<td>String</td>
+<td>启用状态</td>
+</tr>
+</tbody>
+</table>
+<p>
+<strong>EmpLeaveRecord（请假记录）</strong>
+</p>
+<table>
+<thead><tr>
+<th>字段名</th>
+<th>类型</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>record_id</code></td>
+<td>String</td>
+<td>请假记录ID</td>
+</tr>
+<tr>
+<td><code>emp_md_id</code></td>
+<td>String</td>
+<td>关联员工ID</td>
+</tr>
+<tr>
+<td><code>leave_type_name</code></td>
+<td>String</td>
+<td>请假类型名称</td>
+</tr>
+<tr>
+<td><code>leave_days</code></td>
+<td>BigDecimal</td>
+<td>请假天数</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 数据权限</h3>
+<table>
+<thead><tr>
+<th>权限类型</th>
+<th>说明</th>
+<th>控制方式</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>API Key 认证</td>
+<td>接口访问控制</td>
+<td>ApiKeyFilter 过滤器</td>
+</tr>
+<tr>
+<td>IAM 签名验证</td>
+<td>IAM 接口请求验证</td>
+<td>SM3 签名校验</td>
+</tr>
+<tr>
+<td>数据加密</td>
+<td>敏感数据传输加密</td>
+<td>SM4 对称加密</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 组件接口设计</h2>
+<h3>4.1 Controller 接口</h3>
+<h4>4.1.1 人员采集控制器</h4>
+<table>
+<thead><tr>
+<th>API 路径</th>
+<th>HTTP 方法</th>
+<th>功能描述</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>/api/collect/personnel/empLeaveRecord</code></td>
+<td>GET</td>
+<td>采集员工请假记录</td>
+</tr>
+<tr>
+<td><code>/api/collect/personnel/empAnnualLeaveLedger</code></td>
+<td>GET</td>
+<td>采集员工年假记录</td>
+</tr>
+<tr>
+<td><code>/api/collect/personnel/empCertInfo</code></td>
+<td>GET</td>
+<td>采集员工证书记录</td>
+</tr>
+<tr>
+<td><code>/api/collect/personnel/empWorkInfo</code></td>
+<td>GET</td>
+<td>采集员工工作信息</td>
+</tr>
+</tbody>
+</table>
+<h4>4.1.2 IAM 数据同步控制器</h4>
+<table>
+<thead><tr>
+<th>API 路径</th>
+<th>HTTP 方法</th>
+<th>功能描述</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>/api/iam/userCreate</code></td>
+<td>POST</td>
+<td>创建用户</td>
+</tr>
+<tr>
+<td><code>/api/iam/userUpdate</code></td>
+<td>POST</td>
+<td>更新用户</td>
+</tr>
+<tr>
+<td><code>/api/iam/orgCreate</code></td>
+<td>POST</td>
+<td>创建组织</td>
+</tr>
+<tr>
+<td><code>/api/iam/orgUpdate</code></td>
+<td>POST</td>
+<td>更新组织</td>
+</tr>
+</tbody>
+</table>
+<h3>4.2 Service 接口</h3>
+<h4>4.2.1 人员采集服务</h4>
+<pre><code class="language-java">
+public interface PersonnelCollectService {
+    Mono&lt;Void&gt; empLeaveRecordSaveBatch(String apiPath, int pageNum);
+    Mono&lt;Void&gt; empAnnualLeaveLedgerSaveBatch(String apiPath, int pageNum);
+    Mono&lt;Void&gt; empCertInfoSaveBatch(String apiPath, int pageNum);
+    Mono&lt;Void&gt; empWorkInfoSaveBatch(String apiPath, int pageNum);
+}
+</code></pre>
+<h4>4.2.2 IAM 数据同步服务</h4>
+<pre><code class="language-java">
+public interface IamDataSyncService {
+    String userCreate(String bodyParam);
+    String userUpdate(String bodyParam);
+    String orgCreate(String bodyParam);
+    String orgUpdate(String bodyParam);
+}
+</code></pre>
+<h2>5. 核心业务流程</h2>
+<h3>5.1 人员数据采集流程</h3>
+<div class="mermaid">sequenceDiagram
+    participant Client as 客户端
+    participant Controller as CollectPersonnelController
+    participant Service as PersonnelCollectServiceImpl
+    participant HttpClient as BigDataHttpClient
+    participant BigData as 大数据平台
+    participant Repository as EmpLeaveRecordService
+    participant DB as MySQL
+
+    Client-&gt;&gt;Controller: GET /api/collect/personnel/empLeaveRecord
+    Controller-&gt;&gt;Service: empLeaveRecordSaveBatch(path, 1)
+    Service-&gt;&gt;HttpClient: post(apiPath, body, pageQuery)
+    HttpClient-&gt;&gt;BigData: POST 请求
+    BigData--&gt;&gt;HttpClient: JSON 响应
+    HttpClient--&gt;&gt;Service: 响应体
+    Service-&gt;&gt;Service: 解析响应数据
+    Service-&gt;&gt;Repository: upsertBatch(rows)
+    Repository-&gt;&gt;DB: INSERT ... ON DUPLICATE KEY UPDATE</div>
+<h3>5.2 IAM 用户创建流程</h3>
+<div class="mermaid">sequenceDiagram
+    participant IAM as IAM系统
+    participant Controller as IamController
+    participant Service as IamDataSyncServiceImpl
+    participant Util as BamboocloudUtils
+    participant Repository as EmpInfoService
+    participant DB as MySQL
+
+    IAM-&gt;&gt;Controller: POST /api/iam/userCreate (加密请求)
+    Controller-&gt;&gt;Service: userCreate(bodyParam)
+    Service-&gt;&gt;Util: getPlaintext(bodyParam, key, msgType)
+    Util--&gt;&gt;Service: 明文 JSON
+    Service-&gt;&gt;Util: verify(reqmap, signType)
+    Util--&gt;&gt;Service: 校验通过
+    Service-&gt;&gt;Repository: save(empInfo)
+    Repository-&gt;&gt;DB: INSERT INTO emp_info
+    DB--&gt;&gt;Repository: 成功
+    Service-&gt;&gt;Util: encrypt(响应JSON, key, msgType)
+    Service--&gt;&gt;Controller: 加密响应
+    Controller--&gt;&gt;IAM: 200 OK</div>
+<h2>6. 功能权限配置</h2>
+<h3>6.1 API Key 白名单配置</h3>
+<table>
+<thead><tr>
+<th>路径模式</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>/api/iam/**</code></td>
+<td>IAM 接口全部放行</td>
+</tr>
+<tr>
+<td><code>/api/sample/**</code></td>
+<td>示例接口全部放行</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 配置文件说明</h3>
+<pre><code class="language-yaml">
+collect-service:
+  security:
+    enabled: true
+    key: &quot;collect_uuu_987&quot;
+    whitelist:
+      - &quot;/api/iam/**&quot;
+      - &quot;/api/sample/**&quot;
+
+iam:
+  data-sync:
+    signType: SM3
+    msgType: SM4
+    key: &quot;JLB6L6MJVIT5Z7IL&quot;
+</code></pre>
+<h2>7. 代码审查与优化建议</h2>
+<h3>7.1 问题识别与优化</h3>
+<table>
+<thead><tr>
+<th>序号</th>
+<th>问题类型</th>
+<th>问题描述</th>
+<th>优化建议</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>数据安全</td>
+<td>配置文件中硬编码敏感密钥</td>
+<td>将敏感配置移至环境变量</td>
+</tr>
+<tr>
+<td>2</td>
+<td>异常处理</td>
+<td>采集失败时直接忽略，无告警机制</td>
+<td>添加失败重试和告警通知</td>
+</tr>
+<tr>
+<td>3</td>
+<td>代码质量</td>
+<td>BaseCollectService 使用字段注入</td>
+<td>改为构造器注入</td>
+</tr>
+</tbody>
+</table>
+<h3>7.2 安全加固建议</h3>
+<table>
+<thead><tr>
+<th>序号</th>
+<th>安全风险</th>
+<th>关联文件</th>
+<th>修复建议</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>配置文件明文存储密钥</td>
+<td><code>application.yml</code></td>
+<td>使用环境变量或密钥管理服务</td>
+</tr>
+<tr>
+<td>2</td>
+<td>API Key 硬编码</td>
+<td><code>application.yml</code></td>
+<td>使用配置中心动态配置</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>
+<strong>文档版本</strong>: v1.0
+<strong>适用项目</strong>: aiap-collect-service 采集服务
+</p>
+</body>
+</html>
