@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 技术日报 - 2026-08-18</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .container { background: #ffffff; border-radius: 12px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+  .header {
+    text-align: center;
+    border-bottom: 3px solid #1e3a8a;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  .header h1 {
+    font-size: 32px;
+    color: #1e3a8a;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .header .date { color: #64748b; font-size: 16px; margin-bottom: 12px; }
+  .header .summary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+  h2 {
+    color: #1e3a8a;
+    font-size: 22px;
+    margin: 32px 0 16px 0;
+    padding-left: 12px;
+    border-left: 4px solid #1e3a8a;
+  }
+  h3 {
+    color: #1e3a8a;
+    font-size: 17px;
+    margin: 18px 0 10px 0;
+  }
+  h4 {
+    color: #334155;
+    font-size: 15px;
+    margin: 12px 0 6px 0;
+    font-weight: 600;
+  }
+  .top10-item {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    border-left: 4px solid #3b82f6;
+  }
+  .top10-item .title { font-weight: 700; color: #1e3a8a; font-size: 16px; margin-bottom: 6px; }
+  .top10-item .desc { color: #475569; font-size: 14px; margin-bottom: 8px; }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-tech { background: #dbeafe; color: #1e40af; }
+  .badge-eng { background: #d1fae5; color: #065f46; }
+  .badge-biz { background: #fef3c7; color: #92400e; }
+  .badge-impact { background: #fee2e2; color: #991b1b; }
+  .badge-priority { background: #ede9fe; color: #5b21b6; }
+  .badge-action { background: #fce7f3; color: #9f1239; }
+  .badge-star { background: #fff7ed; color: #9a3412; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  th {
+    background: #1e3a8a;
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .star { color: #f59e0b; }
+  .risk-box {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #ef4444;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 8px 0;
+  }
+  .trend-up { color: #10b981; font-weight: 600; }
+  .trend-down { color: #ef4444; font-weight: 600; }
+  .knowledge-item {
+    background: #f0f9ff;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    border-left: 3px solid #0ea5e9;
+  }
+  .knowledge-item h4 { color: #0c4a6e; }
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .plan-card {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-top: 3px solid #3b82f6;
+  }
+  .plan-card .time { color: #1e3a8a; font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+  .plan-card ul { list-style: none; padding-left: 0; }
+  .plan-card li { color: #475569; font-size: 13.5px; margin: 4px 0; padding-left: 16px; position: relative; }
+  .plan-card li::before { content: "▸"; position: absolute; left: 0; color: #3b82f6; }
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #e2e8f0;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+  }
+  .quote-block {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-left: 4px solid #f59e0b;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 12px 0;
+    font-size: 14.5px;
+    color: #78350f;
+  }
+  .final-summary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: #fff;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 24px;
+  }
+  .final-summary h2 { color: #fff; border-left: none; padding-left: 0; }
+  .final-summary .line { margin: 8px 0; font-size: 15px; }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #be185d; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>⚡ AI 技术日报</h1>
+    <div class="date">2026-08-18 · 周二 · AI 技术经理每日情报</div>
+    <div class="summary">
+      今天 AI 领域的重点是<strong>「开源围剿闭源 + 后训练涌现安全能力」</strong>：智谱 GLM-5.3 仅靠后训练就让编程/网络安全能力跃升并拿下开源 SOTA；DeepSeek V4 Pro API 涨价 1100% 标志国产模型从「价格战」转向「价值战」；OpenAI 解散 Preparedness 团队、Anthropic 营收 13 倍增长，行业进入商业化与安全治理的再平衡。
+    </div>
+  </div>
+
+  <h2>一、今日最值得关注（Top 10）</h2>
+
+  <div class="top10-item">
+    <div class="title">① 智谱 GLM-5.3 发布：只做后训练，开源编程追平 Fable 5，「意外」练出攻防能力</div>
+    <div class="desc">基座与 5.2 相同，所有提升全部来自后训练阶段的规模化（更多环境/任务/算力）。编程能力较 5.2 提升 50%，Terminal-Bench 3.0 从 4.6 → 28.3（暴涨 6 倍），DeepSWE v1.1 从 46.2 → 66.9，Agents' Last Exam 从 23.8 → 28.5，拿下开源 SOTA。CyberGym 漏洞推理 84.5%，持平 Mythos 5。权重将在安全评估后两周内开源。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★</span>
+      <span class="badge badge-impact">影响程度: 极高</span>
+      <span class="badge badge-priority">优先级: 立即学习</span>
+      <span class="badge badge-action">建议: 立即接入测试</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">② DeepSeek V4 Pro API 涨价 1100% + 峰谷定价：国产模型「价格屠夫」收刀</div>
+    <div class="desc">8/17 起新价生效：V4 Pro 缓存命中输入 ¥0.3/百万 token（涨 1100%）、缓存未命中输入 ¥9（涨 200%）、输出 ¥27（涨 350%）。高峰时段（9-12、14-18）价格为闲时的 2 倍。OpenCode 第三方套餐已下调 V4 Flash 调用额度 94%。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★★</span>
+      <span class="badge badge-impact">影响程度: 高</span>
+      <span class="badge badge-priority">优先级: 立即行动</span>
+      <span class="badge badge-action">建议: 重算账单 + 错峰调度</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">③ 阿里 Qwen3.8-27B 开源：Max 级 Agent 能力塞进 27B，量化可跑消费级 GPU</div>
+    <div class="desc">Apache 2.0 开源，27.8B dense 多模态（图像+视频），262K 原生上下文可 YaRN 扩展至 1M。Terminal-Bench 2.1 73.0、SWE-bench Pro 61.7、OSWorld-Verified 84.3。Qwen 家族累计 460+ 模型、30 亿下载、30 万衍生模型。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★★</span>
+      <span class="badge badge-impact">影响程度: 高</span>
+      <span class="badge badge-priority">优先级: 立即评估</span>
+      <span class="badge badge-action">建议: 部署本地工作站</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">④ OpenAI 解散 Preparedness 团队：安全「看门人」从独立部门变成产品执行内嵌函数</div>
+    <div class="desc">伦理主管 Chloé Bakalar、首席未来学家 Joshua Achiam、安全负责人 Johannes Heidecke、CRO Denise Dresser、COO Brad Lightcap 等 12+ 高管年内离职。OpenAI ARR 从 $24B 涨到 $40B，但「说不」的能力是否还在存疑。IPO 估值预期 $1T（2027）。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★</span>
+      <span class="badge badge-eng">工程价值: ★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★★</span>
+      <span class="badge badge-impact">影响程度: 极高</span>
+      <span class="badge badge-priority">优先级: 持续关注</span>
+      <span class="badge badge-action">建议: 评估企业级 API 合规</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">⑤ Anthropic 2026 Q2 营收 115 亿美元，同比 13 倍，调整后营业利润首次转正</div>
+    <div class="desc">从「亏损扩张」跨越到「盈利造血」，IPO 估值预期超 SpaceX，冲击全球史上最大规模 IPO。利润率 5% 左右仍较薄，但证明头部企业商业闭环已具备正向现金流能力。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★</span>
+      <span class="badge badge-eng">工程价值: ★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★★</span>
+      <span class="badge badge-impact">影响程度: 高</span>
+      <span class="badge badge-priority">优先级: 持续关注</span>
+      <span class="badge badge-action">建议: 关注企业级定价变化</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">⑥ 国产模型「八周五连发」格局：GLM-5.3 + DeepSeek V4 Pro + Kimi K3 + Qwen3.8 + 智谱 GLM-5.3</div>
+    <div class="desc">开源证券：国产前沿模型在编程/Agent/长上下文/多模态方面持续刷新能力上限，安全与提价并行。Token 价格相继开启上行期，C 端 Agent 有望突破，数字娱乐/企业办公/物理 AI 应用渗透加速。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★★</span>
+      <span class="badge badge-impact">影响程度: 极高</span>
+      <span class="badge badge-priority">优先级: 立即评估</span>
+      <span class="badge badge-action">建议: 重做模型选型矩阵</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">⑦ OpenAI Astra 模型「关键」网络安全评级：自主挖掘零日漏洞 + 端到端攻击</div>
+    <div class="desc">OpenAI 首款网络安全风险达「Critical」的模型。可在无人工干预下，于多个加固关键系统中识别+开发零日漏洞；可仅凭高层目标，自主设计执行端到端网络攻击。OpenAI 暂停内部非必要 Astra 研发，配合政府/AI 安全机构多轮测试。Altman 明确「不想把强大模型只给少数人」。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★</span>
+      <span class="badge badge-impact">影响程度: 极高</span>
+      <span class="badge badge-priority">优先级: 持续关注</span>
+      <span class="badge badge-action">建议: 关注开源替代</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">⑧ 国内企业智能体规模化落地：金蝶 AI 原生收入 +189%，制造业群体智能市场规模破 2.3 万亿</div>
+    <div class="desc">金蝶「灵基」已在费用审核/银企对账/结账关账落地，服务 70 家世界 500 强；滴普×华为云 AI 收入 +209.2%；弗若斯特沙利文：2030 年中国工业智能体市场 2.3 万亿，树根 AI 超级工厂生产周期 30→7 天、OEE +30.8%。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★★</span>
+      <span class="badge badge-impact">影响程度: 高</span>
+      <span class="badge badge-priority">优先级: 立即参考</span>
+      <span class="badge badge-action">建议: 借鉴行业 Agent 方案</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">⑨ GitHub 热门：TencentDB-Agent-Memory v2.0、Cloudflare Computer、PrimeIntellect prime-agent</div>
+    <div class="desc">腾讯云 Agent Memory Hub 登顶 Trending 日榜，提供 Chat Memory/Skill/Wiki/Code Graph 四类记忆资产，跨 Agent 跨框架共享；Cloudflare Computer 为 Agent 提供虚拟电脑（浏览器/文件系统/命令行）；PrimeIntellect prime-agent 自改进 RLM 编码 Agent，持久化 + 后台 daemon。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★★</span>
+      <span class="badge badge-impact">影响程度: 中高</span>
+      <span class="badge badge-priority">优先级: 持续关注</span>
+      <span class="badge badge-action">建议: 评估 Agent Memory Hub</span>
+    </div>
+  </div>
+
+  <div class="top10-item">
+    <div class="title">⑩ arXiv 热门论文：Harness-R1 / SHE 安全护栏演化 / RestoreKV 记忆压缩</div>
+    <div class="desc">上海交大 Harness-R1（arXiv:2608.02276）把「Agent 自己改 Harness」落地，WebShop/ALFWorld/GAIA 提升 30-138%；SHE 把安全护栏拆成 System Prompt/Rule Bank/Safety Memory/Tool Policy 四层，攻击成功率从 17.1% 降至 5.5%；釜山大学 RestoreKV 通过「恢复缓存」补丁修复激进 KV 压缩性能断崖。</div>
+    <div class="meta">
+      <span class="badge badge-tech">技术价值: ★★★★★</span>
+      <span class="badge badge-eng">工程价值: ★★★★</span>
+      <span class="badge badge-biz">企业价值: ★★★</span>
+      <span class="badge badge-impact">影响程度: 中</span>
+      <span class="badge badge-priority">优先级: 持续关注</span>
+      <span class="badge badge-action">建议: 选读 Harness-R1</span>
+    </div>
+  </div>
+
+
+  <h2>二、大模型最新动态</h2>
+  <table>
+    <tr>
+      <th>公司</th>
+      <th>更新内容</th>
+      <th>技术价值</th>
+      <th>是否影响现有项目</th>
+      <th>是否建议关注</th>
+    </tr>
+    <tr>
+      <td><strong>OpenAI</strong></td>
+      <td>Astra 模型因「Critical」网络安全评级延期发布；GPT-5.6-Cyber 已交付受信任防御方；Preparedness 团队解散，12+ 高管离职</td>
+      <td>★★★★★</td>
+      <td>高</td>
+      <td>持续关注</td>
+    </tr>
+    <tr>
+      <td><strong>Anthropic</strong></td>
+      <td>Q2 营收 115 亿美元（同比 13 倍），调整后利润转正；Claude Opus 5（8/13）登顶公测排行；筹备 IPO 估值或超 SpaceX</td>
+      <td>★★★★★</td>
+      <td>高</td>
+      <td>立即关注</td>
+    </tr>
+    <tr>
+      <td><strong>Google DeepMind</strong></td>
+      <td>Gemini 3.6/3.5 Flash 稳定运行，Veo 3.1 视频生成持续升级</td>
+      <td>★★★★</td>
+      <td>中</td>
+      <td>持续关注</td>
+    </tr>
+    <tr>
+      <td><strong>Meta AI</strong></td>
+      <td>Llama 4 持续主导开源；Muse Glimmer 30B 开源（编码+工具+常驻 Agent）</td>
+      <td>★★★★</td>
+      <td>中</td>
+      <td>持续关注</td>
+    </tr>
+    <tr>
+      <td><strong>Alibaba (Qwen)</strong></td>
+      <td>Qwen3.8-Max（2.4T）8/3 权重开源；Qwen3.8-27B 8/14 Apache 2.0 开源；累计 460+ 模型 / 30 亿下载</td>
+      <td>★★★★★</td>
+      <td>高</td>
+      <td>立即关注</td>
+    </tr>
+    <tr>
+      <td><strong>DeepSeek</strong></td>
+      <td>V4 Pro 正式版上线 + API 大幅涨价（缓存命中输入 +1100%），引入峰谷定价</td>
+      <td>★★★★★</td>
+      <td>高</td>
+      <td>立即重算账单</td>
+    </tr>
+    <tr>
+      <td><strong>智谱 Zhipu</strong></td>
+      <td>8/14 发布 GLM-5.3（7430 亿参数），仅后训练即拿下开源编程+网络安全双 SOTA；权重两周内开源</td>
+      <td>★★★★★</td>
+      <td>高</td>
+      <td>立即接入</td>
+    </tr>
+    <tr>
+      <td><strong>Moonshot</strong></td>
+      <td>Kimi K3（2.8 万亿参数）API 上线，开源权重已发布</td>
+      <td>★★★★★</td>
+      <td>中</td>
+      <td>持续关注</td>
+    </tr>
+    <tr>
+      <td><strong>MiniMax</strong></td>
+      <td>H3 全模态开源，视频编辑全球第一；M2.7 模型用于安全护栏迁移</td>
+      <td>★★★★</td>
+      <td>中</td>
+      <td>持续关注</td>
+    </tr>
+  </table>
+
+
+  <h2>三、Agent 技术动态</h2>
+  <table>
+    <tr>
+      <th>项目 / 平台</th>
+      <th>更新内容</th>
+      <th>解决什么问题</th>
+      <th>成熟度</th>
+      <th>企业落地建议</th>
+    </tr>
+    <tr>
+      <td><strong>TencentDB-Agent-Memory v2.0</strong></td>
+      <td>四类记忆资产（Chat Memory/Skill/Wiki/Code Graph），跨 Agent 跨框架共享，团队治理面板</td>
+      <td>解决 Agent 长期记忆碎片化、跨系统无法共享</td>
+      <td>★★★★★</td>
+      <td>P0：评估接入</td>
+    </tr>
+    <tr>
+      <td><strong>Cloudflare Computer</strong></td>
+      <td>为 AI Agent 分配虚拟电脑（浏览器+文件系统+命令行），沙箱隔离</td>
+      <td>降低 Agent 运行环境部署成本</td>
+      <td>★★★★</td>
+      <td>P1：试点测试</td>
+    </tr>
+    <tr>
+      <td><strong>PrimeIntellect prime-agent</strong></td>
+      <td>自改进 RLM 编码 Agent，持久 IPython + 后台 daemon + Continual Harness</td>
+      <td>长时任务跨会话继续执行</td>
+      <td>★★★</td>
+      <td>P2：观察</td>
+    </tr>
+    <tr>
+      <td><strong>DeepSeek Harness</strong></td>
+      <td>开源 Agent 运行框架（MIT），「一切皆插件」架构</td>
+      <td>挑战 Claude Code，提供可定制基座</td>
+      <td>★★★★</td>
+      <td>P0：评估基座</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Code Auto Mode</strong></td>
+      <td>8/14 起默认开启，89% 危险命令捕获率 vs 人工 13.6%</td>
+      <td>代码 Agent 误操作风险</td>
+      <td>★★★★★</td>
+      <td>P0：企业强制开启</td>
+    </tr>
+    <tr>
+      <td><strong>chopratejas/headroom</strong></td>
+      <td>Agent 上下文压缩层，token 减少 60-95%</td>
+      <td>解决上下文窗口成本</td>
+      <td>★★★★</td>
+      <td>P1：试点</td>
+    </tr>
+    <tr>
+      <td><strong>mvanhorn/last30days-skill</strong></td>
+      <td>多平台信号聚合搜索引擎（Reddit/X/YouTube/TikTok/Polymarket）</td>
+      <td>趋势/调研类 Agent 工具</td>
+      <td>★★★</td>
+      <td>P2：可选</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Code / Codex / Cursor / Hermes Agent</strong></td>
+      <td>多智能体编排成为新趋势，stablyai/orca/agency-agents 登榜</td>
+      <td>管理 Agent 舰队</td>
+      <td>★★★</td>
+      <td>P2：观察</td>
+    </tr>
+  </table>
+
+
+  <h2>四、AI 开发框架更新</h2>
+  <table>
+    <tr>
+      <th>框架 / 工具</th>
+      <th>版本 / 更新</th>
+      <th>更新内容</th>
+      <th>性能变化</th>
+      <th>适用场景</th>
+      <th>推荐指数</th>
+    </tr>
+    <tr>
+      <td><strong>vLLM</strong></td>
+      <td>v0.27.0</td>
+      <td>全面支持 Kimi K3、Qwen3.8 系列</td>
+      <td>吞吐量 +25%</td>
+      <td>自托管推理</td>
+      <td>★★★★★</td>
+    </tr>
+    <tr>
+      <td><strong>SGLang</strong></td>
+      <td>0.5.17</td>
+      <td>Agent 会话感知缓存 + GPU 常驻权重守护</td>
+      <td>Agent 场景延迟 -30%</td>
+      <td>多轮 Agent 推理</td>
+      <td>★★★★★</td>
+    </tr>
+    <tr>
+      <td><strong>Ollama</strong></td>
+      <td>v0.32.8</td>
+      <td>支持 Muse Glimmer 全平台</td>
+      <td>本地启动 -40%</td>
+      <td>本地开发调试</td>
+      <td>★★★★</td>
+    </tr>
+    <tr>
+      <td><strong>LangChain</strong></td>
+      <td>1.0 GA</td>
+      <td>架构大改，AgentExecutor 废弃</td>
+      <td>接口更稳定</td>
+      <td>新项目直接 1.0</td>
+      <td>★★★★★</td>
+    </tr>
+    <tr>
+      <td><strong>Turbo-fieldfare</strong></td>
+      <td>新发布</td>
+      <td>极致轻量本地推理引擎（Gemma 4 26B-A4B ~2GB RAM）</td>
+      <td>内存 -90%</td>
+      <td>端侧 / MacBook</td>
+      <td>★★★★</td>
+    </tr>
+    <tr>
+      <td><strong>Chopratejas headroom</strong></td>
+      <td>新发布</td>
+      <td>Agent 上下文压缩层（6 种算法）</td>
+      <td>token -60~95%</td>
+      <td>长上下文 Agent</td>
+      <td>★★★★</td>
+    </tr>
+    <tr>
+      <td><strong>TencentDB Agent Memory</strong></td>
+      <td>v2.0.0</td>
+      <td>Memory Hub 控制面板 + 四类记忆资产</td>
+      <td>跨框架零适配</td>
+      <td>企业级 Agent</td>
+      <td>★★★★★</td>
+    </tr>
+  </table>
+
+
+  <h2>五、GitHub 热门开源项目（Top 5）</h2>
+
+  <h3>1. PrimeIntellect-ai/prime-agent <span class="star">★★★★★</span> 6.3K</h3>
+  <p><strong>地址：</strong><code>github.com/PrimeIntellect-ai/prime-agent</code>（首日登顶 Trending，TypeScript）</p>
+  <p><strong>核心能力：</strong>自改进 AI 编码与研究 Agent，RLM 递归语言模型，持久 IPython 环境 + 后台 daemon，会话断开后任务继续运行。</p>
+  <p><strong>适用场景：</strong>长时自主研究任务、跨会话编码工作流。</p>
+  <p><strong>推荐理由：</strong>实验性项目日增 2,271 星，把「Agent 自我迭代」从口号变成可执行系统。</p>
+
+  <h3>2. TencentCloud/TencentDB-Agent-Memory <span class="star">★★★★★</span> 13.6K</h3>
+  <p><strong>地址：</strong><code>github.com/TencentCloud/TencentDB-Agent-Memory</code>（MIT 协议）</p>
+  <p><strong>核心能力：</strong>团队级 AI Agent 记忆中枢，v2.0 Memory Hub 控制面板，Chat Memory/Skill/Wiki/Code Graph 四类记忆资产，跨 Agent 跨框架共享。</p>
+  <p><strong>适用场景：</strong>企业级 Agent 长期记忆、跨项目知识沉淀。</p>
+  <p><strong>推荐理由：</strong>GitHub Trending 日榜第一，企业落地最需要的「记忆共享」基建。</p>
+
+  <h3>3. mattpocock/skills <span class="star">★★★★★</span> 208.7K</h3>
+  <p><strong>地址：</strong><code>github.com/mattpocock/skills</code></p>
+  <p><strong>核心能力：</strong>面向设计师与工程师的 AI Agent 技能包仓库，Shell 脚本技能封装，适配 Claude/Cursor/Codex 多平台。</p>
+  <p><strong>适用场景：</strong>个人/团队 Agent 能力快速装配。</p>
+  <p><strong>推荐理由：</strong>社区驱动持续扩充，20 万星已是事实标准。</p>
+
+  <h3>4. obra/superpowers <span class="star">★★★★★</span> 268.7K</h3>
+  <p><strong>地址：</strong><code>github.com/obra/superpowers</code></p>
+  <p><strong>核心能力：</strong>AI 编程 Agent 完整开发方法论与技能套件，v6.2.0 新增工作区计划限制与恢复循环；先追问目标再编码，适配 11 个 Agent 平台。</p>
+  <p><strong>适用场景：</strong>编码 Agent 工作流规范。</p>
+  <p><strong>推荐理由：</strong>26 万星，把「编码 SOP」沉淀成可复用的技能包。</p>
+
+  <h3>5. cloudflare/computer <span class="star">★★★★</span></h3>
+  <p><strong>地址：</strong><code>github.com/cloudflare/computer</code>（日增 2800+ 星）</p>
+  <p><strong>核心能力：</strong>为 AI Agent 提供虚拟电脑运行环境（浏览器自动化 + 文件系统 + 命令行），沙箱隔离。</p>
+  <p><strong>适用场景：</strong>Agent 操作真实系统、自动化工作流。</p>
+  <p><strong>推荐理由：</strong>把 Agent 运行环境做成「云上电脑」，降低企业部署成本。</p>
+
+
+  <h2>六、本周值得阅读论文（Top 5）</h2>
+
+  <h3>1. Harness-R1：让 Agent 自己改 Harness</h3>
+  <p><strong>机构：</strong>上海交大 + 多机构联合（arXiv:2608.02276，提交 8/2）</p>
+  <p><strong>创新点：</strong>从 Agent 失败轨迹学习，自动生成对可执行 Runtime Harness 的编辑操作（直接修改 Agent 调用框架本身而非提示词）。WebShop/ALFWorld/GAIA 提升 30-138%。</p>
+  <p><strong>阅读难度：</strong>★★★★</p>
+  <p><strong>是否值得深入阅读：</strong>是——兑现了 Lilian Weng「短期内最先被改写的是 Harness 而不是模型权重」的预言。</p>
+  <p><strong>一句话总结：</strong>把 Harness 变成可被 Agent 迭代训练的对象，Harness Engineering → Self-Improving Harness。</p>
+
+  <h3>2. SHE：安全护栏也可以从失败轨迹中演化</h3>
+  <p><strong>机构：</strong>上海 AI 实验室 + 复旦 + 上海交大 + 香港科大（arXiv，提交 8/10）</p>
+  <p><strong>创新点：</strong>把护栏拆成 System Prompt/Rule Bank/Safety Memory/Tool Policy 四个可编辑工件。Agent-SafetyBench 攻击成功率 17.1% → 5.5%，良性可用率 31.6% → 47.6%。</p>
+  <p><strong>阅读难度：</strong>★★★</p>
+  <p><strong>是否值得深入阅读：</strong>是——所有做 Agent Harness 的工程师必读。</p>
+  <p><strong>一句话总结：</strong>把安全责任拆开，让每次失败都能落到可回滚的局部修改。</p>
+
+  <h3>3. RestoreKV：修复 AI 激进压缩记忆的性能断崖</h3>
+  <p><strong>机构：</strong>釜山国立大学 + 淑明女子大学（arXiv:2608.01247）</p>
+  <p><strong>创新点：</strong>在 KV Cache 压缩前先让模型学会「写一份精华摘要」，保存为 Restore Cache 补丁，避免查询无关驱逐时性能断崖。</p>
+  <p><strong>阅读难度：</strong>★★★</p>
+  <p><strong>是否值得深入阅读：</strong>是——长上下文场景必读。</p>
+  <p><strong>一句话总结：</strong>与其争论留哪几页，不如给压缩后的速记员加一份「摘要补丁」。</p>
+
+  <h3>4. U-OPSD：让模型用自己的共识修正自己</h3>
+  <p><strong>机构：</strong>UC San Diego + Georgia Tech + UMD + ByteDance（arXiv:2608 提交 8/6）</p>
+  <p><strong>创新点：</strong>在无标签问题上采样多条 rollout，用多数票构造伪解，把错误完成作为学生轨迹做 token 前缀蒸馏。Qwen3 非思考模式 4B/8B 提升 8.5%/10.7%。</p>
+  <p><strong>阅读难度：</strong>★★★</p>
+  <p><strong>是否值得深入阅读：</strong>中——无标签后训练场景值得借鉴。</p>
+  <p><strong>一句话总结：</strong>把「自我改进」落成可检查的 rollout 过滤和错误前缀蒸馏。</p>
+
+  <h3>5. Video-DeepResearch：让 AI「先看视频再搜网络」</h3>
+  <p><strong>机构：</strong>中科大 + 小红书 + 港中文 + 浙大 + UCLA + 牛津 + 清华（arXiv:2608.03979，提交 8/4）</p>
+  <p><strong>创新点：</strong>强制「先看视频再搜网络」的训练策略，35B 开源模型以 64% 准确率超越 GPT-5 和 Claude-4.5-Sonnet。</p>
+  <p><strong>阅读难度：</strong>★★★★</p>
+  <p><strong>是否值得深入阅读：</strong>是——视频研究/多模态 Agent 必读。</p>
+  <p><strong>一句话总结：</strong>让 AI 像人一样「先看再搜」，多模态 Agent 的新范式。</p>
+
+
+  <h2>七、AI 产品更新</h2>
+  <table>
+    <tr>
+      <th>产品</th>
+      <th>新增能力</th>
+      <th>是否提升办公效率</th>
+      <th>是否值得体验</th>
+      <th>是否值得企业采购</th>
+    </tr>
+    <tr>
+      <td><strong>ChatGPT (GPT-5.6 Sol/Terra/Luna)</strong></td>
+      <td>可配置推理深度 + 原生多模态 + 1M token</td>
+      <td>是</td>
+      <td>是</td>
+      <td>是</td>
+    </tr>
+    <tr>
+      <td><strong>Claude (Fable 5 / Opus 5 / Mythos 5)</strong></td>
+      <td>全系多模态，Opus 5 8/13 登顶公测</td>
+      <td>是</td>
+      <td>是</td>
+      <td>是</td>
+    </tr>
+    <tr>
+      <td><strong>Gemini 3.6 Flash</strong></td>
+      <td>稳定运行，支持文本/图像/视频/音频/PDF</td>
+      <td>是</td>
+      <td>是</td>
+      <td>中（按场景）</td>
+    </tr>
+    <tr>
+      <td><strong>Cursor</strong></td>
+      <td>多智能体编排，Claude Code/Codex/Cursor 协同</td>
+      <td>是</td>
+      <td>是</td>
+      <td>是</td>
+    </tr>
+    <tr>
+      <td><strong>Trae IDE</strong></td>
+      <td>接入 GLM-5.3 / WorkBuddy / Qoder 等编码平台</td>
+      <td>是</td>
+      <td>是</td>
+      <td>是</td>
+    </tr>
+    <tr>
+      <td><strong>GLM-5.3 (ZCode/AutoClaw)</strong></td>
+      <td>智谱官方编程/效率工具全量上线</td>
+      <td>是</td>
+      <td>是</td>
+      <td>是</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Code Auto Mode</strong></td>
+      <td>默认开启，89% 危险命令捕获率</td>
+      <td>是</td>
+      <td>是</td>
+      <td>P0 必开</td>
+    </tr>
+    <tr>
+      <td><strong>Veo 3.1</strong></td>
+      <td>视频生成更丰富音频 + 强编辑控制</td>
+      <td>中（场景受限）</td>
+      <td>是</td>
+      <td>中</td>
+    </tr>
+  </table>
+
+
+  <h2>八、企业 AI 应用案例</h2>
+
+  <h3>① 金蝶「灵基」企业智能体操作系统（人民网 8/15）</h3>
+  <p><strong>场景：</strong>费用审核/银企对账/结账关账等财务与供应链</p>
+  <p><strong>采用技术：</strong>AI 原生产品，订阅收入增速近 300%，服务 70 家世界 500 强、381 家中国 500 强</p>
+  <p><strong>实施效果：</strong>AI 原生产品收入 +189%，助力数智化转型</p>
+  <p><strong>借鉴价值：</strong>★★★★★——国内大型企业 ERP + AI 原生重做的范本</p>
+
+  <h3>② 滴普科技 × 华为云数据智能方案（8/12）</h3>
+  <p><strong>场景：</strong>智能制造、零售</p>
+  <p><strong>采用技术：</strong>DeepWorks + FastData，AI 任务成功率 97.8%</p>
+  <p><strong>实施效果：</strong>上半年 AI 业务收入 +209.2%，达 2.84 亿元；服务 400+ 企业</p>
+  <p><strong>借鉴价值：</strong>★★★★——智能体一站式落地模板</p>
+
+  <h3>③ 树根科技工业 AI 超级工厂（弗若斯特沙利文 8/14）</h3>
+  <p><strong>场景：</strong>钢铁/重型机械生产</p>
+  <p><strong>采用技术：</strong>全栈工业智能体平台，群体智能</p>
+  <p><strong>实施效果：</strong>生产周期 30→7 天，OEE +30.8%，中远海运无人物流调度自动化率 98%</p>
+  <p><strong>借鉴价值：</strong>★★★★★——工业智能体群体协同标杆</p>
+
+  <h3>④ 浦发银行 220 个 AI 智能体</h3>
+  <p><strong>场景：</strong>信贷/风控/客服</p>
+  <p><strong>采用技术：</strong>AI 智能体集群</p>
+  <p><strong>实施效果：</strong>2026 上半年承载 2500+ 人次工作量</p>
+  <p><strong>借鉴价值：</strong>★★★★——金融业 AI 落地的规模化样本</p>
+
+  <h3>⑤ 招商银行 33B tokens/日 + 工行数字员工 5500 人年</h3>
+  <p><strong>场景：</strong>金融业基础设施</p>
+  <p><strong>采用技术：</strong>Token 驱动 AI，AI 数字员工</p>
+  <p><strong>实施效果：</strong>银行业日均 token 140 万亿，招行 33B、微众 20B+、工行 10B+；工行数字员工 5.5 千人年</p>
+  <p><strong>借鉴价值：</strong>★★★★——Token KPI 化是金融 AI 价值度量的关键</p>
+
+
+  <h2>九、今天最值得学习的三个知识点</h2>
+
+  <div class="knowledge-item">
+    <h4>① 后训练 Scaling 的涌现能力（GLM-5.3 启示）</h4>
+    <p><strong>为什么需要：</strong>传统观念认为模型能力由基座决定。GLM-5.3 证明仅靠后训练规模化（更多环境/任务/算力）就能让同一基座能力跃升并「涌现」出网络安全攻防能力。</p>
+    <p><strong>是什么：</strong>基于 IndexShare/SAO/Slime 框架，把强化学习推到极致（数十倍长程任务 + 数百倍环境类型 + 超长训练时间）。</p>
+    <p><strong>怎么使用：</strong>对于企业内部模型，可优先尝试后训练微调（GRPO/DPO/RLHF）而非更换基座；关注 IndexShare/SAO/Slime 等新一代 RL 框架。</p>
+    <p><strong>最佳实践：</strong>长程任务环境是涌现关键；环境类型多样化优于样本量。</p>
+    <p><strong>容易踩坑：</strong>后训练成本可能超过基座训练；能力涌现需要规模化基础设施。</p>
+    <p><strong>学习时间：</strong>15 分钟</p>
+  </div>
+
+  <div class="knowledge-item">
+    <h4>② DeepSeek 峰谷定价机制设计</h4>
+    <p><strong>为什么需要：</strong>企业级 AI API 算力成本压力大，峰谷定价能把负载平滑到低峰时段，提升资源利用率。</p>
+    <p><strong>是什么：</strong>9-12、14-18 高峰时段价格翻倍；闲时（其余 17 小时）价格仅高峰一半。V4 Pro 闲时输出 ¥13.5/百万 token，比 Kimi K3 的 ¥100 仍便宜。</p>
+    <p><strong>怎么使用：</strong>区分场景：实时客服/编程助手不可错峰；批处理/离线任务尽量调度到闲时。</p>
+    <p><strong>最佳实践：</strong>采用「模型 + 任务」矩阵：实时用 V4 Flash、轻量任务用 GLM-5.3、规划/推理用 Kimi K3。</p>
+    <p><strong>容易踩坑：</strong>缓存命中输入涨幅最大（V4 Pro +1100%），对长上下文 Agent 用户最受伤。</p>
+    <p><strong>学习时间：</strong>15 分钟</p>
+  </div>
+
+  <div class="knowledge-item">
+    <h4>③ Agent 记忆基础设施（TencentDB Agent Memory v2.0）</h4>
+    <p><strong>为什么需要：</strong>Agent 的最大痛点之一是记忆碎片化、跨系统无法共享。</p>
+    <p><strong>是什么：</strong>Chat Memory（对话历史）+ Skill（技能封装）+ Wiki（知识沉淀）+ Code Graph（代码关系）四类资产，跨 Agent 跨框架共享。</p>
+    <p><strong>怎么使用：</strong>企业内部搭建 Memory Hub 中心，让不同 Agent 共享同一份记忆资产。</p>
+    <p><strong>最佳实践：</strong>记忆资产版本化、权限化、审计化；Skill 走 SOP 模板化封装。</p>
+    <p><strong>容易踩坑：</strong>记忆污染是最大风险；必须做新鲜度验证 + 权限隔离。</p>
+    <p><strong>学习时间：</strong>15 分钟</p>
+  </div>
+
+
+  <h2>十、技术趋势分析</h2>
+  <table>
+    <tr>
+      <th>技术</th>
+      <th>趋势</th>
+      <th>原因</th>
+      <th>建议</th>
+    </tr>
+    <tr>
+      <td><strong>后训练 Scaling</strong></td>
+      <td class="trend-up">↑ 升温</td>
+      <td>GLM-5.3 证明仅后训练即可涌现攻防能力</td>
+      <td>P0：评估企业内部模型后训练管线</td>
+    </tr>
+    <tr>
+      <td><strong>国产模型提价</strong></td>
+      <td class="trend-up">↑ 升温</td>
+      <td>DeepSeek 涨 1100%、Token 价格上行期</td>
+      <td>P0：重算账单 + 错峰调度</td>
+    </tr>
+    <tr>
+      <td><strong>开源 SOTA 围剿闭源</strong></td>
+      <td class="trend-up">↑ 升温</td>
+      <td>GLM-5.3/Qwen3.8-27B/Kimi K3/Muse Glimmer 30B</td>
+      <td>P0：重做模型选型矩阵</td>
+    </tr>
+    <tr>
+      <td><strong>多智能体编排</strong></td>
+      <td class="trend-up">↑ 升温</td>
+      <td>stablyai/orca/agency-agents 登榜</td>
+      <td>P1：试点 Orca 平台</td>
+    </tr>
+    <tr>
+      <td><strong>Agent 记忆基础设施</strong></td>
+      <td class="trend-up">↑ 升温</td>
+      <td>腾讯云/IBM ALTK-Evolve/Semantica 等持续涌现</td>
+      <td>P0：评估 Memory Hub</td>
+    </tr>
+    <tr>
+      <td><strong>OpenAI 安全治理</strong></td>
+      <td class="trend-down">↓ 降温</td>
+      <td>Preparedness 团队解散、12+ 高管离职</td>
+      <td>P1：评估企业级 API 合规风险</td>
+    </tr>
+    <tr>
+      <td><strong>价格战</strong></td>
+      <td class="trend-down">↓ 降温</td>
+      <td>DeepSeek 涨价标志「价格屠夫」收刀</td>
+      <td>关注价值战：能力/速度/完成度</td>
+    </tr>
+    <tr>
+      <td><strong>具身世界模型</strong></td>
+      <td class="trend-up">↑ 升温</td>
+      <td>MASS 多人世界模型 + HOPE 手部压力估计</td>
+      <td>P2：观察</td>
+    </tr>
+    <tr>
+      <td><strong>AI 治理国标</strong></td>
+      <td class="trend-up">↑ 升温</td>
+      <td>GB/Z 185-2026 + EU AI Act + 美国新审查框架</td>
+      <td>P0：建立合规框架</td>
+    </tr>
+  </table>
+
+
+  <h2>十一、风险提醒</h2>
+
+  <div class="risk-box">
+    <strong>⚠️ DeepSeek V4 Pro API 大幅涨价</strong><br>
+    <strong>影响范围：</strong>所有使用 DeepSeek 的应用，特别是高缓存命中、长上下文 Agent 用户。V4 Pro 缓存命中输入 +1100%、V4 Flash +400%。OpenCode 第三方套餐已下调 V4 Flash 限额 94%。<br>
+    <strong>建议：</strong>立即重算账单；评估 GLM-5.3/Qwen3.8-27B/Muse Glimmer 30B 替代方案；非实时任务调度到闲时。
+  </div>
+
+  <div class="risk-box">
+    <strong>⚠️ OpenAI 安全治理弱化</strong><br>
+    <strong>影响范围：</strong>所有使用 OpenAI 服务的应用。Preparedness 团队解散，「说不」的能力是否还在存疑；Astra 模型仍处于「关键」网络安全评级暂停状态。<br>
+    <strong>建议：</strong>企业级 API 优先选择 Anthropic；建立「模型 + 任务」冗余方案；关注开源替代（GLM-5.3、Qwen3.8）。
+  </div>
+
+  <div class="risk-box">
+    <strong>⚠️ 模型价格上行期</strong><br>
+    <strong>影响范围：</strong>所有重度使用闭源 API 的企业。国产模型陆续涨价，Token 价格全面进入上行期。<br>
+    <strong>建议：</strong>成本核算纳入 Q4 预算；评估开源本地部署；建立 Token 用量 KPI 与告警。
+  </div>
+
+  <div class="risk-box">
+    <strong>⚠️ 网络安全能力「涌现」风险</strong><br>
+    <strong>影响范围：</strong>所有部署 Agent 的企业。GLM-5.3、GPT-5.6-Cyber、Mythos 5 等都展示出零日漏洞挖掘/端到端攻击能力。<br>
+    <strong>建议：</strong>Agent 运行环境严格沙箱化；建立 AI 生成代码/内容的审计流；参考 SHE 论文的四层护栏架构。
+  </div>
+
+  <div class="risk-box">
+    <strong>⚠️ LangChain 1.0 兼容性问题</strong><br>
+    <strong>影响范围：</strong>所有 LangChain 用户。架构大改，AgentExecutor 废弃。<br>
+    <strong>建议：</strong>新项目直接 1.0；老项目评估迁移成本；不要在生产环境直接升级。
+  </div>
+
+
+  <h2>十二、结合当前工作的建议（重点）</h2>
+
+  <h3>🎯 今天建议学习（30 分钟）</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>▸ GLM-5.3 技术报告：理解后训练 Scaling 的工程实现</li>
+    <li>▸ DeepSeek V4 Pro 峰谷定价方案：设计企业内部错峰调度策略</li>
+    <li>▸ Harness-R1 论文（Harness 可被 Agent 自我训练）</li>
+  </ul>
+
+  <h3>🛠️ 今天建议实践（60 分钟）</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>▸ 在 ZCode/Trae/WorkBuddy/Qoder 中体验 GLM-5.3 编码能力</li>
+    <li>▸ 用 vLLM/SGLang 部署 Qwen3.8-27B 验证本地工作站</li>
+    <li>▸ 接入 TencentDB Agent Memory 评估记忆共享方案</li>
+    <li>▸ 重算 DeepSeek V4 Pro API 账单，对比错峰方案</li>
+  </ul>
+
+  <h3>📖 今天建议阅读</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>▸ 智谱 GLM-5.3 官方技术报告（央广网/科技日报）</li>
+    <li>▸ Qwen3.8-27B Hugging Face / ModelScope Release Note</li>
+    <li>▸ Harness-R1（arXiv:2608.02276）</li>
+    <li>▸ SHE 安全护栏演化（arXiv 8/10）</li>
+    <li>▸ 弗若斯特沙利文《中国工业智能体市场白皮书》</li>
+  </ul>
+
+  <h3>⭐ 今天建议收藏</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>▸ PrimeIntellect-ai/prime-agent（自改进 Agent 框架）</li>
+    <li>▸ TencentCloud/TencentDB-Agent-Memory v2.0（团队级 Agent 记忆中枢）</li>
+    <li>▸ obra/superpowers（编码 Agent 工作流规范）</li>
+    <li>▸ mattpocook/skills（Agent 技能包仓库）</li>
+    <li>▸ cloudflare/computer（Agent 虚拟电脑）</li>
+  </ul>
+
+  <h3>🧪 今天建议尝试</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>▸ GLM-5.3 编程能力（ZCode/AutoClaw/WorkBuddy）</li>
+    <li>▸ Qwen3.8-27B 本地部署（消费级 GPU 即可）</li>
+    <li>▸ Claude Code Auto Mode（强制开启）</li>
+    <li>▸ TencentDB Agent Memory v2.0（团队试用）</li>
+    <li>▸ chopratejas/headroom（上下文压缩层）</li>
+  </ul>
+
+
+  <h2>十三、与当前项目的关联分析</h2>
+  <table>
+    <tr>
+      <th>涉及模块</th>
+      <th>影响程度</th>
+      <th>是否建议升级</th>
+      <th>预计收益</th>
+      <th>工作量</th>
+      <th>优先级</th>
+    </tr>
+    <tr>
+      <td><strong>企业智能体平台</strong></td>
+      <td>高</td>
+      <td>是（评估 GLM-5.3 + DeepSeek Harness 基座）</td>
+      <td>编程 +50%，网络安全能力涌现</td>
+      <td>2 周</td>
+      <td>P0</td>
+    </tr>
+    <tr>
+      <td><strong>RAG 知识库</strong></td>
+      <td>中高</td>
+      <td>是（接入 TencentDB Agent Memory）</td>
+      <td>跨 Agent 记忆共享</td>
+      <td>1 周</td>
+      <td>P0</td>
+    </tr>
+    <tr>
+      <td><strong>智能问答</strong></td>
+      <td>中</td>
+      <td>是（Qwen3.8-27B 本地化）</td>
+      <td>成本 -60%，数据不出域</td>
+      <td>2 周</td>
+      <td>P0</td>
+    </tr>
+    <tr>
+      <td><strong>智能问数</strong></td>
+      <td>中</td>
+      <td>是（接入 DeepSWE 66.9 编码能力）</td>
+      <td>复杂 SQL 生成准确率提升</td>
+      <td>1 周</td>
+      <td>P1</td>
+    </tr>
+    <tr>
+      <td><strong>知识图谱</strong></td>
+      <td>中低</td>
+      <td>观察（RestoreKV 论文值得关注）</td>
+      <td>长上下文检索性能</td>
+      <td>—</td>
+      <td>P2</td>
+    </tr>
+    <tr>
+      <td><strong>MCP 集成</strong></td>
+      <td>中</td>
+      <td>是（Cloudflare Computer 沙箱）</td>
+      <td>Agent 运行环境成本降低</td>
+      <td>1 周</td>
+      <td>P1</td>
+    </tr>
+    <tr>
+      <td><strong>Skill 开发</strong></td>
+      <td>高</td>
+      <td>是（obra/superpowers + mattpocock/skills 模板）</td>
+      <td>Skill 标准化、跨平台复用</td>
+      <td>持续</td>
+      <td>P0</td>
+    </tr>
+    <tr>
+      <td><strong>AI 治理</strong></td>
+      <td>高</td>
+      <td>是（参考 SHE 四层护栏 + Claude Code Auto Mode）</td>
+      <td>攻击成功率 17.1% → 5.5%</td>
+      <td>2 周</td>
+      <td>P0</td>
+    </tr>
+  </table>
+
+
+  <h2>十四、今日 AI 能力成长计划（70 分钟）</h2>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="time">📚 学习（15 分钟）</div>
+      <ul>
+        <li>读 GLM-5.3 技术报告摘要</li>
+        <li>读 DeepSeek 峰谷定价方案</li>
+        <li>了解 Harness-R1 核心思路</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="time">📖 阅读（15 分钟）</div>
+      <ul>
+        <li>智谱 GLM-5.3 央广网报道</li>
+        <li>Qwen3.8-27B 官方 Release Note</li>
+        <li>SHE 安全护栏论文摘要</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="time">🛠️ 实践（30 分钟）</div>
+      <ul>
+        <li>ZCode 体验 GLM-5.3 编程</li>
+        <li>本地跑 Qwen3.8-27B demo</li>
+        <li>重算 DeepSeek 账单</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="time">✍️ 总结（10 分钟）</div>
+      <ul>
+        <li>记下今日 3 个新认知</li>
+        <li>输出 1 个可落地行动</li>
+        <li>更新到项目知识库</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <h2>十五、一句话总结</h2>
+  <div class="quote-block">
+    <strong>今天最值得投入学习的是：</strong>后训练 Scaling 的涌现能力（GLM-5.3 案例）—— 它重新定义了「基座 vs 后训练」的能力分配。<br><br>
+    <strong>今天最值得尝试的是：</strong>GLM-5.3 编程能力实测 + DeepSeek V4 Pro 峰谷账单重算 + Qwen3.8-27B 本地部署评估。<br><br>
+    <strong>今天可以忽略的是：</strong>OpenAI Astra 的炒作（仍处于暂停状态，且不会向公众开放）；Anthropic IPO 估值（短期不影响企业 API 定价）。
+  </div>
+
+  <div class="final-summary">
+    <h2>📌 关键判断（AI 技术经理视角）</h2>
+    <div class="line">1. <strong>开源已追平闭源：</strong>GLM-5.3 编程 + 智能体能力接近 Fable 5，Qwen3.8-27B 多模态能力强 — 闭源护城河正在被快速侵蚀。</div>
+    <div class="line">2. <strong>价格战结束，价值战开始：</strong>DeepSeek 涨价 1100% 标志头部厂商已具备定价权，企业预算需重做。</div>
+    <div class="line">3. <strong>安全治理成关键变量：</strong>OpenAI 解散 Preparedness 团队 vs SHE 论文的四层护栏演化，两条路线将塑造未来 1 年的企业 AI 采购决策。</div>
+    <div class="line">4. <strong>后训练 = 新基座：</strong>GLM-5.3 仅靠后训练即拿开源 SOTA，Harness-R1 证明 Agent 可自我训练 — 「Self-Improving Harness」是 2026 Q4 的明确方向。</div>
+  </div>
+
+  <div class="footer">
+    <p>⚡ WorkBuddy · AI 技术经理每日情报中心</p>
+    <p>本日报由 mag-ai-daily-tech-tracker skill 自动生成 · 数据截至 2026-08-18 09:00 GMT+8</p>
+    <p>信息来源：OpenAI / Anthropic / Google / Meta / Alibaba / DeepSeek / 智谱 / 央广网 / 科技日报 / 中国基金报 / 弗若斯特沙利文 / GitHub Trending / arXiv / 官方 Release Note</p>
+  </div>
+
+</div>
+</body>
+</html>
