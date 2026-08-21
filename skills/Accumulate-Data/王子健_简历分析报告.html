@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简历分析报告 - 王子健</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    line-height: 1.8;
+    padding: 40px 20px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+  .header {
+    background: linear-gradient(135deg, #5b2c8a, #8b5cb8);
+    color: #fff;
+    padding: 40px 35px;
+    border-radius: 12px 12px 0 0;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header .subtitle { font-size: 15px; opacity: 0.85; }
+  .header .meta { margin-top: 15px; display: flex; gap: 20px; font-size: 13px; opacity: 0.9; flex-wrap: wrap; }
+  .header .meta span { background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 20px; }
+  .content {
+    background: #fff;
+    padding: 35px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .section { margin-bottom: 35px; }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #5b2c8a;
+    border-left: 4px solid #5b2c8a;
+    padding-left: 12px;
+    margin-bottom: 18px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  th {
+    background: #f5f0fa;
+    color: #5b2c8a;
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid #5b2c8a;
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  tr:hover td { background: #fdfbff; }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+  .tag-high { background: #f0e6fa; color: #5b2c8a; }
+  .tag-mid { background: #fff7e6; color: #d48806; }
+  .tag-low { background: #fff1f0; color: #cf1322; }
+  .tag-na { background: #f5f5f5; color: #999; }
+  .tag-strong { background: #f0e6fa; color: #5b2c8a; }
+  .tag-medium { background: #fff7e6; color: #d48806; }
+  .tag-weak { background: #fff1f0; color: #cf1322; }
+  .tag-none { background: #f5f5f5; color: #999; }
+  .project-card {
+    background: #fdfbff;
+    border: 1px solid #e8def0;
+    border-left: 4px solid #8b5cb8;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+  }
+  .project-card h4 { color: #5b2c8a; font-size: 16px; margin-bottom: 10px; }
+  .project-card .label { font-weight: 600; color: #555; }
+  .project-card ul { list-style: none; padding: 0; }
+  .project-card li { padding: 3px 0; font-size: 14px; }
+  .project-card li::before { content: "▸ "; color: #8b5cb8; font-weight: bold; }
+  .highlight-box {
+    background: #f5f0fa;
+    border: 1px solid #d4c4ec;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .warning-box {
+    background: #fff7e6;
+    border: 1px solid #ffe58f;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .danger-box {
+    background: #fff1f0;
+    border: 1px solid #ffa39e;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .success-box {
+    background: #f0f5fa;
+    border: 1px solid #b3d4e6;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .conclusion-box {
+    background: linear-gradient(135deg, #5b2c8a, #8b5cb8);
+    color: #fff;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-top: 15px;
+    font-size: 15px;
+  }
+  .conclusion-box strong { font-size: 16px; }
+  .question-list { counter-reset: q; list-style: none; padding: 0; }
+  .question-list li {
+    counter-increment: q;
+    padding: 8px 0 8px 32px;
+    position: relative;
+    font-size: 14px;
+    border-bottom: 1px dashed #eee;
+  }
+  .question-list li::before {
+    content: "Q" counter(q);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    background: #5b2c8a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .sub-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #8b5cb8;
+    margin: 18px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e8def0;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    font-size: 13px;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>简历分析报告</h1>
+  <div class="subtitle">候选人：王子健 | 目标岗位：后端开发工程师（外包）| 薪资范围：5-8K | 青岛</div>
+  <div class="meta">
+    <span>工作年限：2年</span>
+    <span>学历：本科（枣庄学院）</span>
+    <span>专业：计算机科学与技术</span>
+    <span>年龄：24岁</span>
+    <span>求职意向：AI大模型应用开发工程师</span>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+<!-- 一、候选人概览 -->
+<div class="section">
+  <h2 class="section-title">一、候选人概览</h2>
+  <table>
+    <tr><th style="width:160px;">项目</th><th>内容</th></tr>
+    <tr><td><strong>候选人定位</strong></td><td>AI大模型应用开发工程师，兼有Python后端和Java（Spring Boot）开发能力</td></tr>
+    <tr><td><strong>工作年限</strong></td><td>约2年（2024.06-2026.07.31），单家公司经历</td></tr>
+    <tr><td><strong>核心技术方向</strong></td><td>RAG知识库、Agent智能体、LangChain/LangGraph、大模型API对接</td></tr>
+    <tr><td><strong>主要项目类型</strong></td><td>企业知识库问答、Text2SQL数据分析、水务管理+AI、健康管理+AI、CRM+AI</td></tr>
+    <tr><td><strong>初步结论</strong></td><td>候选人AI工程能力突出，RAG和Agent有完整项目落地经验，技术栈覆盖Python+Java双语言后端。但求职意向为AI大模型应用开发，与目标岗位（后端开发外包）存在定位偏差，需重点确认职业意向和薪资期望匹配度。若岗位能利用其AI能力则为高性价比候选人。</td></tr>
+  </table>
+  <div class="warning-box">
+    <strong>⚠ 岗位定位偏差：</strong>候选人求职意向明确标注为"AI大模型应用开发工程师"，而目标岗位为"后端开发工程师（外包）5-8K"。候选人AI能力远超该岗位薪资段对应的技术水平，需重点确认：① 为何投递此岗位；② 是否接受纯后端开发；③ 薪资期望是否匹配5-8K。
+  </div>
+</div>
+
+<!-- 二、技术能力分析 -->
+<div class="section">
+  <h2 class="section-title">二、技术能力分析</h2>
+  <table>
+    <tr>
+      <th style="width:140px;">能力维度</th>
+      <th>简历体现</th>
+      <th style="width:90px;">判断</th>
+      <th style="width:200px;">需要验证的问题</th>
+    </tr>
+    <tr>
+      <td><strong>RAG能力</strong></td>
+      <td>精通RAG全流程：多格式文档解析、文本清洗、Chunk切分、Metadata设计、向量化、混合检索、Reranker重排序、检索评测调优、答案溯源</td>
+      <td><span class="tag tag-strong">强</span></td>
+      <td>Chunk切分策略的选型依据；Reranker模型选择；检索评测指标（Recall@K/Precision）；幻觉率降低的量化数据</td>
+    </tr>
+    <tr>
+      <td><strong>Agent能力</strong></td>
+      <td>基于LangGraph开发多Agent协作，实现工具调用、任务拆分、状态管理、条件路由、Checkpointer持久化、断点恢复、人工审批、MCP协议</td>
+      <td><span class="tag tag-strong">强</span></td>
+      <td>Multi-Agent的调度架构设计；人工审批的实现机制；MCP Server开发细节；Agent异常处理与回退策略</td>
+    </tr>
+    <tr>
+      <td><strong>Prompt能力</strong></td>
+      <td>few-shot、思维链、思维树、Prompt攻击防范、SQL专属提示词模板、预校验检测机制</td>
+      <td><span class="tag tag-strong">强</span></td>
+      <td>Prompt攻击防范的具体实践；思维树在什么场景使用；Prompt迭代优化流程</td>
+    </tr>
+    <tr>
+      <td><strong>大模型基础</strong></td>
+      <td>熟悉OpenAI、DeepSeek、ollama本地模型等主流接口体系；SSE流式响应；OpenAI兼容接口封装</td>
+      <td><span class="tag tag-strong">强</span></td>
+      <td>ollama本地部署的模型选型与资源消耗；不同模型API的差异处理；上下文窗口管理策略</td>
+    </tr>
+    <tr>
+      <td><strong>Python后端</strong></td>
+      <td>使用Python、FastAPI搭建AI服务，掌握SSE流式响应、接口参数校验、SQLAlchemy、Redis、MySQL</td>
+      <td><span class="tag tag-medium">中</span></td>
+      <td>FastAPI异步编程能力；接口并发处理；Redis使用场景与缓存策略；SQLAlchemy复杂查询能力</td>
+    </tr>
+    <tr>
+      <td><strong>Java后端</strong></td>
+      <td>熟悉SpringBoot开发框架，Controller/Service/DAO分层设计，MySQL数据访问；项目三中使用SpringBoot+MyBatis Plus+Spring Security开发水务管理系统</td>
+      <td><span class="tag tag-medium">中</span></td>
+      <td>Spring Security权限设计细节；MyBatis Plus使用深度；Java与Python系统间集成方案；Spring IOC/AOP原理</td>
+    </tr>
+    <tr>
+      <td><strong>向量数据库</strong></td>
+      <td>掌握Milvus、FAISS、Chroma、Qdrant，Docker部署Milvus检索服务</td>
+      <td><span class="tag tag-strong">强</span></td>
+      <td>不同向量库的选型考量；Milvus的索引类型选择；向量维度与性能的关系</td>
+    </tr>
+    <tr>
+      <td><strong>工程化与部署</strong></td>
+      <td>使用Docker部署Milvus；Dify本地化部署；Git；日志监控；数据库增量更新</td>
+      <td><span class="tag tag-medium">中</span></td>
+      <td>是否独立完成Docker Compose编排；CI/CD经验；Nginx配置；Linux运维深度</td>
+    </tr>
+    <tr>
+      <td><strong>前端能力</strong></td>
+      <td>熟悉Vue3前端开发，了解组件化开发、接口联调及前后端分离架构；项目中使用Vue2/Vue3+Element Plus</td>
+      <td><span class="tag tag-weak">弱-中</span></td>
+      <td>Vue组件化开发深度；是否独立完成过前端页面开发</td>
+    </tr>
+    <tr>
+      <td><strong>Text2SQL</strong></td>
+      <td>项目二完整实现Text2SQL闭环：Schema理解、指标匹配、SQL自动生成、SQL校验执行、出错自动修正</td>
+      <td><span class="tag tag-strong">强</span></td>
+      <td>SQL生成准确率；Schema理解的实现方式；SQL出错修正的成功率；复杂查询的处理能力</td>
+    </tr>
+  </table>
+  <div class="success-box">
+    <strong>✓ 技术亮点：</strong>候选人在RAG、Agent、Text2SQL三个AI工程核心方向均有完整项目落地经验，且涉及LangChain/LangGraph/LangGraph全栈、MCP协议、Function Calling等前沿技术，技术广度和深度在2年经验候选人中属于优秀水平。
+  </div>
+</div>
+
+<!-- 三、项目经验分析 -->
+<div class="section">
+  <h2 class="section-title">三、项目经验分析</h2>
+
+  <div class="project-card">
+    <h4>项目一：云知智能问答助手（核心项目 - RAG方向）</h4>
+    <ul>
+      <li><span class="label">项目目标：</span>解决公司内部工程交付/技术规范文档分散、查询效率低的问题，构建基于RAG的智能知识问答平台</li>
+      <li><span class="label">候选人职责：</span>负责知识库构建、RAG检索生成与评测</li>
+      <li><span class="label">涉及技术：</span>Python、FastAPI、LangChain、大模型API、Chroma、Redis、MySQL、Vue2</li>
+      <li><span class="label">工程复杂度：</span>中高。文档处理流水线 + 混合检索 + Reranker重排 + 检索评测 + 权限隔离 + 日志监控 + 增量更新，完整度较高</li>
+      <li><span class="label">结果与指标：</span>提到"降低大模型幻觉"，但无量化数据（如幻觉率从X%降至Y%、检索准确率等）</li>
+      <li><span class="label">亮点：</span>RAG全流程完整（从文档入库到精准检索回答）；引入元数据过滤和混合检索；有检索效果评测调优意识；权限隔离和增量更新体现工程思维</li>
+      <li><span class="label">疑点或风险：</span>"降低大模型幻觉"缺少量化指标；Chroma vs Milvus的选择原因未知；项目团队规模和个人贡献比例未说明</li>
+      <li><span class="label">面试追问方向：</span>Chunk切分策略的具体参数选择；Reranker用的什么模型；检索评测用什么指标；幻觉降低的量化数据；权限隔离的实现方案</li>
+    </ul>
+  </div>
+
+  <div class="project-card">
+    <h4>项目二：慧数电商问数系统（核心项目 - Agent/Text2SQL方向）</h4>
+    <ul>
+      <li><span class="label">项目目标：</span>解决业务人员不熟悉SQL、数据分析依赖技术人员的问题，构建自然语言驱动的数据分析系统</li>
+      <li><span class="label">候选人职责：</span>负责Agent编排模块、检索模块及Text2SQL核心链路开发</li>
+      <li><span class="label">涉及技术：</span>Python、FastAPI、LangGraph、LangChain、大模型API、Qdrant、Elasticsearch、MySQL、Docker、SSE、SQLAlchemy</li>
+      <li><span class="label">工程复杂度：</span>高。LangGraph编排完整工作流 + Qdrant+ES混合检索 + Text2SQL全链路（Schema理解→指标匹配→SQL生成→校验执行→出错修正）+ SSE流式响应</li>
+      <li><span class="label">结果与指标：</span>未提供量化指标（如SQL生成准确率、查询成功率等）</li>
+      <li><span class="label">亮点：</span>Text2SQL完整闭环是高价值技术场景；SQL出错自动修正体现工程鲁棒性；Qdrant+ES混合检索方案有技术深度；LangGraph状态管理和条件路由</li>
+      <li><span class="label">疑点或风险：</span>项目描述中提到"万仓数据科技有限公司"——是否为跨公司项目？还是经鼎智能为万仓数据做的外包？SQL生成准确率无量化数据</li>
+      <li><span class="label">面试追问方向：</span>Text2SQL的准确率和出错修正成功率；Qdrant+ES混合检索的分工设计；Schema理解的具体实现；与万仓数据的关系</li>
+    </ul>
+  </div>
+
+  <div class="project-card">
+    <h4>项目三：为源自助水务管理系统（Java+AI融合项目）</h4>
+    <ul>
+      <li><span class="label">项目目标：</span>社区自助取水管理系统 + AI社区服务Agent，实现设备查询、故障分析、运维工单创建</li>
+      <li><span class="label">候选人职责：</span>用户管理、设备管理业务模块开发及知识库、Agent构建模块</li>
+      <li><span class="label">涉及技术：</span>Java、SpringBoot、MyBatis Plus、Spring Security、MySQL、Redis、Vue3、Element Plus、Python、FastAPI、LangChain、LangGraph、大模型API、Milvus</li>
+      <li><span class="label">工程复杂度：</span>中高。Java后端 + Python AI服务双技术栈融合，通过Function Calling打通</li>
+      <li><span class="label">结果与指标：</span>未提供量化指标</li>
+      <li><span class="label">亮点：</span>Java+Python跨语言系统集成的实战经验；SpringBoot业务系统 + LangGraph Agent的融合架构；Function Calling打通业务系统</li>
+      <li><span class="label">疑点或风险：</span>Java和Python部分的工作量占比未知；是否独立完成Java后端开发；Spring Security的权限设计细节未知</li>
+      <li><span class="label">面试追问方向：</span>Java与Python系统间的通信方式；Spring Security权限设计；Function Calling工具封装的具体实现</li>
+    </ul>
+  </div>
+
+  <div class="project-card">
+    <h4>项目四：糖小安 血糖健康管理助手（Multi-Agent项目）</h4>
+    <ul>
+      <li><span class="label">项目目标：</span>基于已有血糖健康管理App，引入AI技术构建Multi-Agent智能健康管理助手</li>
+      <li><span class="label">候选人职责：</span>Agent工作流编排、任务执行模块及Agent与业务系统集成</li>
+      <li><span class="label">涉及技术：</span>Python、FastAPI、LangChain、LangGraph、大模型API、Function Calling、SQLAlchemy、Redis、JWT、MySQL、Milvus</li>
+      <li><span class="label">工程复杂度：</span>中高。Multi-Agent调度架构 + 多轮对话 + 意图识别 + 口语化输入处理 + 会话恢复</li>
+      <li><span class="label">结果与指标：</span>未提供量化指标</li>
+      <li><span class="label">亮点：</span>Multi-Agent架构设计；意图识别和自动追问缺失信息；会话恢复功能；"数据记录→智能分析→健康建议"闭环设计</li>
+      <li><span class="label">疑点或风险：</span>Multi-Agent的具体Agent数量和分工未详细说明；意图识别的实现方式未知</li>
+      <li><span class="label">面试追问方向：</span>Multi-Agent的具体Agent拆分方案；Agent间通信方式；意图识别准确率；会话恢复的技术实现</li>
+    </ul>
+  </div>
+
+  <div class="project-card">
+    <h4>项目五：盈客智联 CRM系统（CRM+AI项目）</h4>
+    <ul>
+      <li><span class="label">项目目标：</span>CRM系统 + AI客户助手Agent，实现产品知识检索、客户需求匹配、售后问题处理</li>
+      <li><span class="label">候选人职责：</span>CRM业务模块开发及AI客户助手Agent开发</li>
+      <li><span class="label">涉及技术：</span>Python、FastAPI、LangChain、LangGraph、大模型API、Milvus、Redis、MySQL、Vue3</li>
+      <li><span class="label">工程复杂度：</span>中。标准CRM + RAG知识库 + Agent，与前几个项目模式类似</li>
+      <li><span class="label">结果与指标：</span>未提供量化指标</li>
+      <li><span class="label">亮点：</span>业务系统+AI助手的标准融合模式</li>
+      <li><span class="label">疑点或风险：</span>项目描述中提到"盈科智联技术有限公司"——又是跨公司项目？项目模式与前几个高度相似（业务系统+RAG+Agent），存在模板化风险</li>
+      <li><span class="label">面试追问方向：</span>该项目与经鼎智能的关系；CRM业务模块的开发深度；与项目一的差异</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <strong>⚠ 项目整体分析：</strong>5个项目AI技术含量高且覆盖面广（RAG/Agent/Text2SQL/Multi-Agent/跨语言集成），但存在两个关注点：① 多个项目提到不同公司名（万仓数据、盈科智联），疑似经鼎智能为其他公司提供外包/定制开发服务，需确认项目来源；② 5个项目均在同一家公司2年内完成，时间分配和并行情况需验证。
+  </div>
+</div>
+
+<!-- 四、优势分析 -->
+<div class="section">
+  <h2 class="section-title">四、优势分析</h2>
+  <table>
+    <tr>
+      <th style="width:180px;">优势</th>
+      <th>简历依据</th>
+      <th style="width:220px;">对岗位的价值</th>
+    </tr>
+    <tr>
+      <td><strong>RAG全流程实战经验</strong></td>
+      <td>5个项目中4个涉及RAG，覆盖文档解析→向量化→混合检索→重排序→评测调优全链路</td>
+      <td>如岗位涉及AI知识库/智能客服方向，可直接独立落地</td>
+    </tr>
+    <tr>
+      <td><strong>Agent/Text2SQL高价值技术</strong></td>
+      <td>LangGraph多Agent编排、Function Calling、Text2SQL完整闭环、MCP协议</td>
+      <td>Text2SQL和Agent是当前AI应用最热门方向，技术稀缺性高</td>
+    </tr>
+    <tr>
+      <td><strong>Python+Java双语言后端</strong></td>
+      <td>Python/FastAPI做AI服务 + Java/SpringBoot做业务系统，通过Function Calling打通</td>
+      <td>外包项目中跨语言集成能力有差异化竞争力</td>
+    </tr>
+    <tr>
+      <td><strong>向量数据库多栈经验</strong></td>
+      <td>使用过Milvus、FAISS、Chroma、Qdrant四种向量数据库</td>
+      <td>向量库选型和适配经验丰富，技术视野广</td>
+    </tr>
+    <tr>
+      <td><strong>项目完整度高</strong></td>
+      <td>每个项目都包含业务背景、技术栈、职责描述和技术细节，非简单CRUD项目</td>
+      <td>体现系统设计和全流程开发能力</td>
+    </tr>
+    <tr>
+      <td><strong>工程意识较强</strong></td>
+      <td>涉及权限隔离、日志监控、增量更新、会话恢复、SQL校验、出错修正等工程化能力</td>
+      <td>不止于Demo级别，有生产环境意识</td>
+    </tr>
+    <tr>
+      <td><strong>技术前沿跟进</strong></td>
+      <td>使用MCP协议、LangGraph、Dify、Coze、Codex、Claude Code等最新技术工具</td>
+      <td>技术敏感度高，学习能力强，能快速跟进新技术</td>
+    </tr>
+  </table>
+</div>
+
+<!-- 五、不足与风险 -->
+<div class="section">
+  <h2 class="section-title">五、不足与风险</h2>
+  <table>
+    <tr>
+      <th style="width:160px;">风险点</th>
+      <th>具体表现</th>
+      <th style="width:120px;">影响</th>
+      <th style="width:200px;">面试验证方式</th>
+    </tr>
+    <tr>
+      <td><strong>求职意向与岗位不匹配</strong></td>
+      <td>简历明确标注求职意向为"AI大模型应用开发工程师"，目标岗位为后端开发外包5-8K</td>
+      <td>高。可能不接受纯后端岗位或薪资</td>
+      <td>面试前确认：为何投递此岗位？是否接受纯后端？薪资期望？</td>
+    </tr>
+    <tr>
+      <td><strong>薪资可能不匹配</strong></td>
+      <td>AI工程师市场薪资通常在10-20K+，5-8K后端外包岗位可能远低于其期望</td>
+      <td>高。即使技术达标也可能因薪资拒绝</td>
+      <td>直接询问薪资期望和可接受范围</td>
+    </tr>
+    <tr>
+      <td><strong>稳定性风险</strong></td>
+      <td>候选人AI能力强，若岗位为纯后端开发，可能在找到AI岗位后快速离职</td>
+      <td>高。外包岗位流失成本高</td>
+      <td>了解求职动机；为何从上一家公司离职；长期职业规划</td>
+    </tr>
+    <tr>
+      <td><strong>缺少量化指标</strong></td>
+      <td>5个项目均无效果量化数据（如RAG准确率、Text2SQL成功率、响应时间、数据量等）</td>
+      <td>中。难以评估真实项目规模和效果</td>
+      <td>追问RAG检索准确率、SQL生成成功率、系统数据量等</td>
+    </tr>
+    <tr>
+      <td><strong>项目来源复杂</strong></td>
+      <td>项目二提到"万仓数据科技有限公司"，项目五提到"盈科智联技术有限公司"，均为非雇主公司</td>
+      <td>中。项目归属和角色需确认</td>
+      <td>追问经鼎智能与这些公司的合作关系；项目是外包还是自研</td>
+    </tr>
+    <tr>
+      <td><strong>"精通"声明需验证</strong></td>
+      <td>简历中多次使用"精通"（精通RAG、精通Agent、精通大模型API），2年经验声称"精通"需验证</td>
+      <td>中。技能描述可能存在夸大</td>
+      <td>深挖技术原理和底层机制；追问独立解决问题的经历</td>
+    </tr>
+    <tr>
+      <td><strong>项目模式同质化</strong></td>
+      <td>5个项目中有4个为"业务系统+RAG知识库+Agent"的相似模式</td>
+      <td>低-中。技术深度可能不如广度</td>
+      <td>追问不同项目间的技术差异和演进</td>
+    </tr>
+    <tr>
+      <td><strong>后端基础深度待验证</strong></td>
+      <td>Java后端经验集中在项目三，Python后端以FastAPI为主；Spring Boot使用深度和数据库优化能力未充分体现</td>
+      <td>中。后端岗位核心能力需验证</td>
+      <td>追问Java并发/JVM基础；数据库优化实践；Redis使用场景</td>
+    </tr>
+    <tr>
+      <td><strong>学历背景普通</strong></td>
+      <td>枣庄学院（普通本科），非985/211</td>
+      <td>低。2年项目经验可弥补学历</td>
+      <td>不影响技术评估，但部分公司有学历门槛</td>
+    </tr>
+  </table>
+</div>
+
+<!-- 六、岗位匹配度评估 -->
+<div class="section">
+  <h2 class="section-title">六、岗位匹配度评估</h2>
+  <div class="highlight-box">
+    <strong>评估说明：</strong>目标岗位为"后端开发工程师（外包）_青岛 5-8K"。候选人求职意向为AI大模型应用开发工程师，技术能力以AI工程为主，兼有Python/Java后端能力。以下从两个角度评估：纯后端匹配度和含AI能力的综合匹配度。
+  </div>
+  <table>
+    <tr>
+      <th style="width:180px;">评估项</th>
+      <th style="width:90px;">匹配度</th>
+      <th>说明</th>
+    </tr>
+    <tr>
+      <td><strong>Python后端开发</strong></td>
+      <td><span class="tag tag-high">中高</span></td>
+      <td>FastAPI有实际项目经验，SSE/参数校验/SQLAlchemy/Redis均有使用</td>
+    </tr>
+    <tr>
+      <td><strong>Java后端开发</strong></td>
+      <td><span class="tag tag-mid">中</span></td>
+      <td>有SpringBoot+MyBatis Plus+Spring Security项目经验，但深度和占比待验证</td>
+    </tr>
+    <tr>
+      <td><strong>数据库能力</strong></td>
+      <td><span class="tag tag-mid">中</span></td>
+      <td>MySQL + Redis有使用经验，但SQL优化和复杂查询能力未充分体现</td>
+    </tr>
+    <tr>
+      <td><strong>AI工程能力</strong></td>
+      <td><span class="tag tag-high">高</span></td>
+      <td>RAG/Agent/Text2SQL/MCP全栈AI能力，远超5-8K岗位预期</td>
+    </tr>
+    <tr>
+      <td><strong>工程化与部署</strong></td>
+      <td><span class="tag tag-mid">中</span></td>
+      <td>Docker部署有经验，Git/Codex/Cursor使用，但CI/CD和Nginx配置待验证</td>
+    </tr>
+    <tr>
+      <td><strong>业务理解能力</strong></td>
+      <td><span class="tag tag-high">中高</span></td>
+      <td>5个项目覆盖多个行业（企业知识管理/电商数据分析/水务/健康/CRM），业务理解面广</td>
+    </tr>
+    <tr>
+      <td><strong>薪资匹配度</strong></td>
+      <td><span class="tag tag-low">低</span></td>
+      <td>AI工程师市场薪资远超5-8K，薪资匹配是最大障碍</td>
+    </tr>
+    <tr>
+      <td><strong>求职意向匹配</strong></td>
+      <td><span class="tag tag-low">低</span></td>
+      <td>求职意向为AI大模型应用开发，与后端开发外包岗位定位偏差明显</td>
+    </tr>
+    <tr>
+      <td><strong>成长潜力</strong></td>
+      <td><span class="tag tag-high">高</span></td>
+      <td>24岁、2年AI工程经验、技术前沿跟进积极、学习能力强，潜力优秀</td>
+    </tr>
+  </table>
+  <div class="conclusion-box">
+    <strong>整体匹配度：中（技术维度高，意向/薪资维度低）</strong><br><br>
+    从纯技术能力看，候选人的Python/Java后端能力可满足5-8K外包岗位要求，且AI工程能力远超该薪资段水平，是技术维度的高性价比候选人。但从求职意向和薪资期望看，候选人的目标定位为AI大模型应用开发工程师，5-8K后端外包岗位可能无法满足其职业发展和薪资期望，存在较高的入职意愿风险和稳定性风险。建议在面试前优先确认求职动机和薪资期望，若可匹配则强烈建议推进。
+  </div>
+</div>
+
+<!-- 七、针对性面试问题 -->
+<div class="section">
+  <h2 class="section-title">七、针对性面试问题</h2>
+
+  <div class="sub-title">1. 求职意向与动机验证问题（最高优先级）</div>
+  <ul class="question-list">
+    <li>你简历上的求职意向是"AI大模型应用开发工程师"，为什么投递后端开发外包岗位？（核心动机验证）</li>
+    <li>你对这个5-8K的后端岗位有什么期望？你的薪资期望是多少？（薪资匹配度验证）</li>
+    <li>如果这个岗位主要是Java/Python后端开发，AI相关内容较少，你能接受吗？（岗位内容匹配验证）</li>
+    <li>你从山东经鼎智能离职的原因是什么？你在找什么样的机会？（离职原因和稳定性评估）</li>
+    <li>你的长期职业规划是什么？是继续做AI方向还是转后端？（职业方向确认）</li>
+  </ul>
+
+  <div class="sub-title">2. RAG技术深挖问题</div>
+  <ul class="question-list">
+    <li>你在云知项目中，Chunk切分策略是怎么选择的？固定长度、按段落、按语义，分别什么场景用？切分参数怎么调优？</li>
+    <li>混合检索中向量检索和关键词检索的结果是怎么融合的？RRF还是加权融合？参数怎么调？</li>
+    <li>Reranker用的什么模型？bge-reranker还是Cohere？重排的延迟如何控制？Top-K怎么选择？</li>
+    <li>检索效果评测你用了什么指标？Recall@K、Precision@K、MRR分别多少？评测集怎么构建？</li>
+    <li>"降低大模型幻觉"具体降低了多少？从什么指标看出来的？答案溯源是怎么实现的？</li>
+    <li>Chroma、Milvus、Qdrant你都用过，能说说选型时的考量吗？各自的优缺点？</li>
+  </ul>
+
+  <div class="sub-title">3. Agent/Text2SQL技术深挖问题</div>
+  <ul class="question-list">
+    <li>慧数电商项目中，Text2SQL的准确率大概多少？复杂多表查询的成功率？出错自动修正的成功率？</li>
+    <li>LangGraph的Graph结构你是怎么设计的？State包含哪些字段？条件路由的判断逻辑？</li>
+    <li>Multi-Agent架构中你设计了几个Agent？它们之间是怎么通信和协作的？有没有死锁或循环调用的问题？</li>
+    <li>MCP Server你开发的具体功能是什么？和Function Calling相比有什么优势？实际落地中有什么问题？</li>
+    <li>Agent的Checkpointer持久化和断点恢复是怎么实现的？什么场景下需要人工审批？审批后怎么恢复执行？</li>
+    <li>SQL预校验检测机制具体检测什么？字段幻觉问题怎么减少的？</li>
+  </ul>
+
+  <div class="sub-title">4. 后端开发能力验证问题</div>
+  <ul class="question-list">
+    <li>水务管理项目中Java和Python部分的工作量占比是多少？你是独立完成Java后端开发吗？</li>
+    <li>Spring Security的权限设计是怎样的？JWT还是Session？RBAC还是更细粒度的权限控制？</li>
+      <li>FastAPI的异步编程你用到什么程度？async/await的使用场景？有没有遇到过异步陷阱？</li>
+    <li>Redis在你项目中用于什么场景？缓存策略是什么？有没有遇到过缓存穿透/击穿/雪崩？</li>
+    <li>Java和Python系统之间的通信方式是什么？HTTP API还是消息队列？跨语言集成有什么挑战？</li>
+    <li>你的MySQL优化经验有哪些？索引设计、慢查询排查、分页优化有没有实际案例？</li>
+  </ul>
+
+  <div class="sub-title">5. 工程落地问题</div>
+  <ul class="question-list">
+    <li>Docker部署Milvus的完整流程？有没有用Docker Compose编排多个服务？</li>
+    <li>数据库增量更新是怎么实现的？全量重建和增量更新的切换策略？</li>
+    <li>日志监控用的什么方案？有没有做过告警？线上出过什么问题？</li>
+    <li>Dify本地化部署你做了哪些定制化？和自研LangChain方案相比，你如何选型？</li>
+    <li>5个项目的开发是串行还是并行？你同时负责几个项目？时间怎么分配？</li>
+  </ul>
+
+  <div class="sub-title">6. 场景设计题</div>
+  <ul class="question-list">
+    <li>如果让你为公司设计一个内部知识库问答系统，文档格式包括PDF/DOCX/PPT/HTML，数据量约10万文档，日均查询量5000次，你会怎么设计整体架构？（结合候选人RAG经验考察架构设计能力）</li>
+    <li>如果Text2SQL系统在复杂多表JOIN查询时准确率很低（低于50%），你会从哪些方面优化？（考察Text2SQL深度问题解决能力）</li>
+  </ul>
+
+  <div class="sub-title">7. 风险验证问题</div>
+  <ul class="question-list">
+    <li>项目二提到"万仓数据科技有限公司"，项目五提到"盈科智联技术有限公司"，这些项目与山东经鼎智能是什么关系？是外包项目吗？（验证项目来源）</li>
+    <li>你简历中多次使用"精通"，能具体说说你在RAG方向"精通"到什么程度？有没有独立从0到1设计过RAG系统？（验证技能声明真实性）</li>
+    <li>2年经验完成5个项目，每个项目的技术深度如何保证？有没有项目是仅参与部分开发？（验证项目深度）</li>
+    <li>你说熟练使用Codex、Claude Code等AI编程工具，这些工具在你的开发中占比多少？没有这些工具时你的开发效率如何？（验证独立开发能力）</li>
+  </ul>
+</div>
+
+<!-- 八、面试评价建议 -->
+<div class="section">
+  <h2 class="section-title">八、面试评价建议</h2>
+  <table>
+    <tr>
+      <th style="width:160px;">评价维度</th>
+      <th>建议</th>
+    </tr>
+    <tr>
+      <td><strong>必须验证的能力</strong></td>
+      <td>求职动机和薪资期望（最高优先级）；RAG技术深度（不能只会调用API）；Agent架构设计能力（验证LangGraph的实际掌握程度）；Java/Python后端基础扎实度</td>
+    </tr>
+    <tr>
+      <td><strong>可以加分的表现</strong></td>
+      <td>能清晰说出RAG各环节的选型理由和调优经验；能解释Text2SQL的准确率数据和优化方案；有独立从0到1设计AI系统的经历；对后端开发有真实兴趣而非仅作为过渡</td>
+    </tr>
+    <tr>
+      <td><strong>需要警惕的回答</strong></td>
+      <td>对"为何投递后端岗位"回答含糊或明显是过渡心态；薪资期望远超8K且不可协商；RAG/Agent只能说出概念但说不出技术细节和踩坑经验；所有项目都说不清个人贡献比例</td>
+    </tr>
+    <tr>
+      <td><strong>建议重点观察</strong></td>
+      <td>求职动机的真实性（是否真心想做后端，还是暂时的过渡）；技术深度vs广度（2年5个项目，深度是否足够）；稳定性预期（找到AI岗位后会不会很快离职）；薪资协商空间</td>
+    </tr>
+  </table>
+</div>
+
+<!-- 九、招聘建议 -->
+<div class="section">
+  <h2 class="section-title">九、招聘建议</h2>
+  <table>
+    <tr>
+      <th style="width:160px;">建议项</th>
+      <th>结论</th>
+    </tr>
+    <tr>
+      <td><strong>是否进入面试</strong></td>
+      <td><span class="tag tag-mid">建议先电话沟通再决定</span> 需先确认求职动机和薪资期望，再决定是否安排正式面试</td>
+    </tr>
+    <tr>
+      <td><strong>建议面试轮次</strong></td>
+      <td>电话初筛（确认意向+薪资）→ 技术面试（RAG/Agent深度+后端基础）→ 技术复面（场景设计+项目深挖）</td>
+    </tr>
+    <tr>
+      <td><strong>建议面试重点</strong></td>
+      <td>① 求职动机和稳定性（最高优先级）；② 薪资期望匹配度；③ RAG/Agent技术深度验证；④ Java/Python后端基础扎实度</td>
+    </tr>
+    <tr>
+      <td><strong>是否建议录用</strong></td>
+      <td><span class="tag tag-mid">条件性录用</span> 若求职动机合理且薪资可协商至8K以内，强烈建议录用；若求职意向和薪资不匹配，不建议推进</td>
+    </tr>
+    <tr>
+      <td><strong>适合岗位</strong></td>
+      <td>AI大模型应用开发工程师（最佳匹配）、AI+后端融合开发、RAG/Agent系统开发、Python后端开发、Java后端开发（可接受AI方向延伸）</td>
+    </tr>
+    <tr>
+      <td><strong>建议职级</strong></td>
+      <td>中级（Mid），P5级别。AI能力可达P5-P6水平，但后端基础按P4-P5验证</td>
+    </tr>
+  </table>
+  <div class="conclusion-box">
+    <strong>结论：</strong>该候选人是3份简历中AI技术能力最强的候选人，RAG/Agent/Text2SQL/MCP全栈AI能力在2年经验中属于优秀水平，且兼有Python+Java双语言后端能力。但核心矛盾在于：候选人求职意向为AI大模型应用开发工程师，而目标岗位为5-8K后端外包开发，存在明显的定位偏差和薪资差距。<br><br>
+    <strong>建议分两步推进：</strong>① 先电话沟通确认求职动机（为何投递后端岗位）、薪资期望（是否接受5-8K）和稳定性预期（是否将此岗位作为过渡）；② 若动机合理且薪资可协商，则安排技术面试，重点验证RAG/Agent技术深度和后端基础扎实度。<br><br>
+    <strong>若该岗位有AI相关需求或未来可能拓展AI方向，此候选人为高性价比选择；若为纯后端CRUD外包岗位，则存在较高的稳定性和流失风险。</strong>
+  </div>
+</div>
+
+<!-- 十、需要补充的信息 -->
+<div class="section">
+  <h2 class="section-title">十、需要补充的信息</h2>
+  <div class="highlight-box">
+    如有以下信息可更精准评估候选人：
+  </div>
+  <table>
+    <tr>
+      <th style="width:200px;">需补充信息</th>
+      <th>原因</th>
+    </tr>
+    <tr>
+      <td>求职动机（为何投递后端而非AI岗位）</td>
+      <td>候选人AI能力强但投递后端岗位，动机不明，影响稳定性判断</td>
+    </tr>
+    <tr>
+      <td>薪资期望具体数值</td>
+      <td>AI工程师市场薪资远超5-8K，薪资匹配是核心障碍</td>
+    </tr>
+    <tr>
+      <td>项目来源（经鼎智能与万仓数据/盈科智联的关系）</td>
+      <td>多个项目提到不同公司名，需确认项目归属</td>
+    </tr>
+    <tr>
+      <td>RAG/Text2SQL的效果量化指标</td>
+      <td>所有项目缺少准确率、成功率等量化数据</td>
+    </tr>
+    <tr>
+      <td>Java后端在项目中的工作量占比</td>
+      <td>候选人以AI为主，Java后端深度需确认</td>
+    </tr>
+    <tr>
+      <td>离职原因和职业规划</td>
+      <td>评估稳定性和长期匹配度</td>
+    </tr>
+    <tr>
+      <td>目标岗位JD详细要求</td>
+      <td>仅有岗位名称和薪资范围，缺少具体技术要求和岗位职责</td>
+    </tr>
+  </table>
+</div>
+
+<div class="footer">
+  本报告基于候选人简历内容自动生成，仅供招聘决策参考。<br>
+  生成日期：2026-08-12
+</div>
+
+</div>
+</div>
+</body>
+</html>

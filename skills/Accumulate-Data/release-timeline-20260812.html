@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>发布时间线 - 小铁宝及通用智能体</title>
+<style>
+:root {
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --line: #e0e0e0;
+  --major: #e74c3c;
+  --minor: #3498db;
+  --patch: #2ecc71;
+  --hotfix: #f39c12;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-hover: 0 4px 16px rgba(0,0,0,0.15);
+  --radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 0;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 40px 24px 32px;
+  text-align: center;
+}
+.header h1 { font-size: 28px; margin-bottom: 6px; }
+.header .subtitle { font-size: 14px; opacity: 0.85; }
+
+/* Stats bar */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 20px 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-item .num { font-size: 24px; font-weight: 700; color: var(--text); }
+.stat-item .label { font-size: 12px; color: var(--text-secondary); }
+
+/* Controls */
+.controls {
+  max-width: 800px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-box:focus { border-color: #667eea; }
+.filter-select {
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Timeline */
+.timeline-container {
+  max-width: 800px;
+  margin: 24px auto 48px;
+  padding: 0 24px;
+  position: relative;
+}
+.timeline-line {
+  position: absolute;
+  left: 32px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+.timeline-item {
+  position: relative;
+  padding-left: 64px;
+  margin-bottom: 20px;
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+}
+.timeline-item:nth-child(1) { animation-delay: 0.05s; }
+.timeline-item:nth-child(2) { animation-delay: 0.1s; }
+.timeline-item:nth-child(3) { animation-delay: 0.15s; }
+.timeline-item:nth-child(4) { animation-delay: 0.2s; }
+.timeline-item:nth-child(5) { animation-delay: 0.25s; }
+.timeline-item:nth-child(6) { animation-delay: 0.3s; }
+.timeline-item:nth-child(7) { animation-delay: 0.35s; }
+.timeline-item:nth-child(8) { animation-delay: 0.4s; }
+.timeline-item:nth-child(n+9) { animation-delay: 0.45s; }
+
+.timeline-dot {
+  position: absolute;
+  left: 25px;
+  top: 16px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--line);
+  z-index: 1;
+}
+.timeline-dot.major { background: var(--major); }
+.timeline-dot.minor { background: var(--minor); }
+.timeline-dot.patch { background: var(--patch); }
+.timeline-dot.hotfix { background: var(--hotfix); }
+
+.timeline-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 24px;
+  border-left: 4px solid var(--line);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.timeline-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.timeline-card.major { border-left-color: var(--major); }
+.timeline-card.minor { border-left-color: var(--minor); }
+.timeline-card.patch { border-left-color: var(--patch); }
+.timeline-card.hotfix { border-left-color: var(--hotfix); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.card-version {
+  font-size: 18px;
+  font-weight: 700;
+}
+.card-date {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.card-project {
+  display: inline-block;
+  font-size: 12px;
+  color: #667eea;
+  background: rgba(102,126,234,0.1);
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.card-type-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+.card-type-badge.major { color: var(--major); background: rgba(231,76,60,0.1); }
+.card-type-badge.minor { color: var(--minor); background: rgba(52,152,219,0.1); }
+.card-type-badge.patch { color: var(--patch); background: rgba(46,204,113,0.1); }
+.card-type-badge.hotfix { color: var(--hotfix); background: rgba(243,156,18,0.1); }
+
+.card-content {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+}
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.card-owner::before { content: "👤 "; }
+.card-notes::before { content: "📝 "; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-secondary);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .header { padding: 28px 16px 20px; }
+  .header h1 { font-size: 22px; }
+  .controls { padding: 0 16px; }
+  .timeline-container { padding: 0 16px; }
+  .timeline-line { left: 20px; }
+  .timeline-item { padding-left: 48px; }
+  .timeline-dot { left: 13px; }
+  .timeline-card { padding: 16px; }
+  .stats-bar { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 发布时间线</h1>
+  <div class="subtitle">小铁宝及通用智能体 · Release Timeline</div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<div class="controls">
+  <input type="text" class="search-box" id="searchBox" placeholder="搜索版本、日期或发布内容..." oninput="filterTimeline()">
+  <select class="filter-select" id="projectFilter" onchange="filterTimeline()">
+    <option value="">全部项目</option>
+  </select>
+  <select class="filter-select" id="typeFilter" onchange="filterTimeline()">
+    <option value="">全部类型</option>
+    <option value="major">Major</option>
+    <option value="minor">Minor</option>
+    <option value="patch">Patch</option>
+    <option value="hotfix">Hotfix</option>
+  </select>
+</div>
+
+<div class="timeline-container">
+  <div class="timeline-line"></div>
+  <div id="timeline"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="icon">🔍</div>
+    <p>没有匹配的发布记录</p>
+  </div>
+</div>
+
+<script>
+// ====== RELEASE DATA ======
+const RELEASE_DATA = [
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "PC及企微端问答内容更新",
+    "date": "2026-08-12",
+    "content": "新增建知识库问答、人事问题问答、董事会会议知识问答；优化运营办事指南问答；企微端增加安全网关（去掉公网解析，通过网关设备接收企微请求并进行内网转发）",
+    "type": "patch"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "通用智能体场景扩展",
+    "date": "2026-07-28",
+    "content": "新增置业问答场景；优化合同指标问数维度",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "通用智能体问数功能迁移",
+    "date": "2026-05-15",
+    "content": "审计专家意见总结智能体、审计整改审核智能体迁移至集团新智能体开发平台",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "通用智能体问答功能迁移",
+    "date": "2026-04-15",
+    "content": "督查督办周报智能体迁移至集团新智能体开发平台",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "语料更新及平台运维",
+    "date": "2025-10-01",
+    "content": "按需开展常态化语料更新；平台运维工作",
+    "type": "patch"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "核心场景上线",
+    "date": "2025-09-28",
+    "content": "上线【审计整改完成情况核验】场景",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "对外集成服务上线",
+    "date": "2025-09-03",
+    "content": "上线智慧工地集成页面版、弹窗版；同步上线【智慧工地知识问答】",
+    "type": "major"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "核心场景上线",
+    "date": "2025-07-25",
+    "content": "上线【投资管理知识问答】、【置业管理知识问答】场景；上线业务智能体【督查督办报告生成】",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "核心场景上线",
+    "date": "2025-06-26",
+    "content": "上线【综合事务问答】、【预算知识问答】场景；上线业务智能体【审计专家意见总结】",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "统一入口建设",
+    "date": "2025-06-10",
+    "content": "上线\"小铁宝\"移动端；集成至企微；面向全体员工开放",
+    "type": "major"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "核心场景上线",
+    "date": "2025-05-06",
+    "content": "上线【IT运维知识问答】、【征迁政策问答】、【运营办事指南问答】",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "统一入口建设",
+    "date": "2025-04-10",
+    "content": "上线\"小铁宝\"PC端；集成至门户；开放问答与问数功能；4月21日面向全集团开放",
+    "type": "major"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "核心场景上线",
+    "date": "2025-03-25",
+    "content": "完成【集团标准问答】场景研发；完成【工程建设板块指标问数】场景研发",
+    "type": "minor"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "培训赋能",
+    "date": "2025-03-25",
+    "content": "面向集团各部门开展人工智能专题培训5次；提升认知与使用能力",
+    "type": "patch"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "平台选型与部署",
+    "date": "2025-03-19",
+    "content": "与华为、智远、中兴等厂商完成多轮沟通；完成平台与模型部署",
+    "type": "major"
+  },
+  {
+    "project": "小铁宝及通用智能体",
+    "version": "需求调研与场景规划",
+    "date": "2025-02-01",
+    "content": "梳理各业务部门及分子公司场景；完成7轮调研；规划54个通用场景",
+    "type": "patch"
+  }
+];
+// ====== END RELEASE DATA ======
+
+// Sort by date descending
+RELEASE_DATA.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+// Populate project filter
+const projects = [...new Set(RELEASE_DATA.map(r => r.project))];
+projects.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = p;
+  opt.textContent = p;
+  document.getElementById('projectFilter').appendChild(opt);
+});
+
+// Render stats
+function renderStats(data) {
+  const statsBar = document.getElementById('statsBar');
+  const totalReleases = data.length;
+  const totalProjects = new Set(data.map(r => r.project)).size;
+  const latestDate = data.length > 0 ? data[0].date : '-';
+  const latestVersion = data.length > 0 ? data[0].version : '-';
+
+  statsBar.innerHTML = `
+    <div class="stat-item"><div class="num">${totalReleases}</div><div class="label">发布总数</div></div>
+    <div class="stat-item"><div class="num">${totalProjects}</div><div class="label">项目数</div></div>
+    <div class="stat-item"><div class="num">${latestVersion}</div><div class="label">最新发布</div></div>
+    <div class="stat-item"><div class="num">${latestDate}</div><div class="label">最近日期</div></div>
+  `;
+}
+
+// Format date
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+// Render timeline
+function renderTimeline(data) {
+  const container = document.getElementById('timeline');
+  const emptyState = document.getElementById('emptyState');
+
+  if (data.length === 0) {
+    container.innerHTML = '';
+    emptyState.style.display = 'block';
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  container.innerHTML = data.map(r => {
+    const type = r.type || 'patch';
+    const typeLabels = { major: 'Major', minor: 'Minor', patch: 'Patch', hotfix: 'Hotfix' };
+    return `
+      <div class="timeline-item">
+        <div class="timeline-dot ${type}"></div>
+        <div class="timeline-card ${type}">
+          <div class="card-header">
+            <div>
+              <span class="card-version">${r.version}</span>
+              <span class="card-type-badge ${type}">${typeLabels[type]}</span>
+            </div>
+            <span class="card-date">${formatDate(r.date)}</span>
+          </div>
+          <div class="card-project">${r.project}</div>
+          <div class="card-content">${r.content || ''}</div>
+          <div class="card-footer">
+            ${r.owner ? `<span class="card-owner">${r.owner}</span>` : ''}
+            ${r.notes ? `<span class="card-notes">${r.notes}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Filter
+function filterTimeline() {
+  const query = document.getElementById('searchBox').value.toLowerCase();
+  const projectVal = document.getElementById('projectFilter').value;
+  const typeVal = document.getElementById('typeFilter').value;
+
+  const filtered = RELEASE_DATA.filter(r => {
+    const matchQuery = !query ||
+      (r.project && r.project.toLowerCase().includes(query)) ||
+      (r.version && r.version.toLowerCase().includes(query)) ||
+      (r.content && r.content.toLowerCase().includes(query)) ||
+      (r.owner && r.owner.toLowerCase().includes(query));
+    const matchProject = !projectVal || r.project === projectVal;
+    const matchType = !typeVal || (r.type || 'patch') === typeVal;
+    return matchQuery && matchProject && matchType;
+  });
+
+  renderTimeline(filtered);
+}
+
+// Init
+renderStats(RELEASE_DATA);
+renderTimeline(RELEASE_DATA);
+</script>
+
+</body>
+</html>
